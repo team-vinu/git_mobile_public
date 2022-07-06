@@ -11,6 +11,40 @@ if [ ! -d $DIR ]; then
     rm "${DIR}.tar.gz"
 fi
 
+function emulatorx86() {
+    OUTPUT_DIR="$(pwd)/${DIR}/i686-android"
+    ANDROID_API="21"
+
+    rustup target add i686-linux-android 
+
+    if [ ! -d $OUTPUT_DIR ]; then
+        cd "${DIR}"
+        ARCH="android-x86" \
+        CC="${NDK_TOOLCHAIN_ROOT}/bin/i686-linux-android${ANDROID_API}-clang" \
+        CXX="${NDK_TOOLCHAIN_ROOT}/bin/i686-linux-android${ANDROID_API}-clang++" \
+        CFLAGS="-m32" \
+        ./config \
+            ${ARCH} \
+            ${CFLAGS} \
+            --prefix=${OUTPUT_DIR} \
+            --with-zlib-include=${ndk_toolchain_root}/sysroot/usr/include \
+            --with-zlib-lib=${ndk_toolchain_root}/sysroot/usr/lib \
+            zlib no-asm no-shared no-unit-test
+        
+        make
+        make install_sw
+
+        cd ..
+    else
+        :
+    fi
+
+    mv "${OUTPUT_DIR}" ./openssl
+    rm -r "${DIR}"
+
+    # X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" X86_64_LINUX_ANDROID_OPENSSL_DIR="${OUTPUT_DIR}" cargo build --release --target=x86_64-linux-android
+}
+
 function emulator() {
     OUTPUT_DIR="$(pwd)/${DIR}/x86_64_android"
     ANDROID_API="21"
@@ -38,63 +72,88 @@ function emulator() {
         :
     fi
 
+    mv "${OUTPUT_DIR}" ./openssl
+    rm -r "${DIR}"
+
     # X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" X86_64_LINUX_ANDROID_OPENSSL_DIR="${OUTPUT_DIR}" cargo build --release --target=x86_64-linux-android
 }
 
 function aarch64() {
-    OUTPUT_DIR="${DIR}/aarch64_android"
+    OUTPUT_DIR="$(pwd)/${DIR}/aarch64_android"
     rustup target add aarch64-linux-android
 
-    ARCH=android
-    ROID_API=21
-    CC=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android${ANDROID_API}-clang
-    CXX=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android${ANDROID_API}-clang++
-    LD=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android-ld
-    AR=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android-ar
-    RANLIB=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android-ranlib
-    STRIP=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android-strip
-    CFLAGS="shared no-ssl2 no-ssl3 no-hw -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing"
-    LDFLAGS=""
+    if [ ! -d $OUTPUT_DIR ]; then
+        cd "${DIR}"
+        # CFLAGS="-shared no-ssl2 no-ssl3 no-hw -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing" \
+        ARCH=android64-aarch64 \
+        ANDROID_API=21 \
+        CC=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android${ANDROID_API}-clang \
+        CXX=${NDK_TOOLCHAIN_ROOT}/bin/aarch64-linux-android${ANDROID_API}-clang++ \
+        ./config \
+            ${ARCH} \
+            ${CFLAGS} \
+            --prefix=${OUTPUT_DIR} \
+            --with-zlib-include=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/include \
+            --with-zlib-lib=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/lib \
+            zlib no-asm no-shared no-unit-test
 
-    ./Configure \
-        ${ARCH} \
-        ${CFLAGS} \
-        --prefix=${OUTPUT_DIR} \
-        --with-zlib-include=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/include \
-        --with-zlib-lib=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/lib \
-        zlib no-asm no-shared no-unit-test
+        make
+        make install_sw
 
-    cargo build --release --target=aarch64-linux-android
+        cd ..
+    else
+        :
+    fi
+
+    mv "${OUTPUT_DIR}" ./openssl
+    rm -r "${DIR}"
+
+    # cargo build --release --target=aarch64-linux-android
 }
 
 function armeabi-v7a() {
-    OUTPUT_DIR="${DIR}/armeabi-v7a_android"
+    OUTPUT_DIR="$(pwd)/${DIR}/armeabi-v7a_android"
     rustup target add armv7-linux-androideabi
 
-    ARCH=android-armv7
-    OID_API=16
-    CC=${NDK_TOOLCHAIN_ROOT}/bin/armv7a-linux-androideabi${ANDROID_API}-clang
-    CXX=${NDK_TOOLCHAIN_ROOT}/bin/armv7a-linux-androideabi${ANDROID_API}-clang++
-    LD=${NDK_TOOLCHAIN_ROOT}/bin/arm-linux-androideabi-ld
-    AR=${NDK_TOOLCHAIN_ROOT}/bin/arm-linux-androideabi-ar
-    RANLIB=${NDK_TOOLCHAIN_ROOT}/bin/arm-linux-androideabi-ranlib
-    STRIP=${NDK_TOOLCHAIN_ROOT}/bin/arm-linux-androideabi-strip
-    CFLAGS="-mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb -mfpu=neon -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing"
-    LDFLAGS="-Wl,--fix-cortex-a8"
+    if [ ! -d $OUTPUT_DIR ]; then
+        cd "$DIR"
 
-    ./Configure \
-        ${ARCH} \
-        ${CFLAGS} \
-        --prefix=${OUTPUT_DIR} \
-        --with-zlib-include=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/include \
-        --with-zlib-lib=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/lib \
-        zlib no-asm no-shared no-unit-test
+        ARCH=android-armv7 \
+        ANDROID_API=21 \
+        CC=${NDK_TOOLCHAIN_ROOT}/bin/armv7a-linux-androideabi${ANDROID_API}-clang \
+        CXX=${NDK_TOOLCHAIN_ROOT}/bin/armv7a-linux-androideabi${ANDROID_API}-clang++ \
+        ./Configure \
+            ${ARCH} \
+            ${CFLAGS} \
+            --prefix=${OUTPUT_DIR} \
+            --with-zlib-include=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/include \
+            --with-zlib-lib=${NDK_TOOLCHAIN_ROOT}/sysroot/usr/lib \
+            zlib no-asm no-shared no-unit-test
 
-    cargo build --release --target=armv7-linux-androideabi
+        make
+        make install_sw
+
+        cd ../
+    else
+        :
+    fi
+
+    mv "${OUTPUT_DIR}" ./openssl
+    rm -r "${DIR}"
+
+    # cargo build --release --target=armv7-linux-androideabi
 }
 
 if [ "$1" = "all" ]; then
     emulator
+    aarch64
+    emulatorx86
+elif [ "$1" = "aarch64" ]; then
+    aarch64
+elif [ "$1" = "emulator" ]; then
+    emulator
+elif [ "$1" = "emulatorx86" ]; then
+    emulatorx86
 else
     :
 fi

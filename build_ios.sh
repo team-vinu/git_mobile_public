@@ -26,11 +26,15 @@ function aarch64() {
     else
         :
     fi
-    AARCH64_APPLE_IOS_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" AARCH64_APPLE_IOS_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" AARCH64_APPLE_IOS_OPENSSL_DIR="${OUTPUT_DIR}" \
-    cargo build --release --target=aarch64-apple-ios
+    
+    mv "${OUTPUT_DIR}" ./openssl
+    rm -r "${DIR}"
 
-    AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" AARCH64_APPLE_IOS_SIM_OPENSSL_DIR="${OUTPUT_DIR}" \
-    cargo build --release --target=aarch64-apple-ios-sim 
+    # AARCH64_APPLE_IOS_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" AARCH64_APPLE_IOS_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" AARCH64_APPLE_IOS_OPENSSL_DIR="${OUTPUT_DIR}" \
+    # cargo build --release --target=aarch64-apple-ios
+
+    # AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" AARCH64_APPLE_IOS_SIM_OPENSSL_DIR="${OUTPUT_DIR}" \
+    # cargo build --release --target=aarch64-apple-ios-sim 
 }
 
 if [ "$1" = "all" ]; then
