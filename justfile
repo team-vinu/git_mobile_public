@@ -17,6 +17,14 @@ gen:
     # Uncomment this line to invoke build_runner as well
     # fvm flutter pub run build_runner build
 
+OPENSSLDIR := "$PWD/openssl-1.1.1p"
+
+run:
+    export X86_64_LINUX_ANDROID_OPENSSL_DIR="{{OPENSSLDIR}}/x86_64_android"; \
+    export X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="$X86_64_LINUX_ANDROID_OPENSSL_DIR/include"; \
+    export X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib"; \
+    fvm flutter run
+
 lint:
     cd native && cargo fmt
     dart format .

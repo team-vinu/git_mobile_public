@@ -2,7 +2,7 @@
 
 DIR="./openssl-1.1.1p"
 
-export ANDROID_NDK_HOME="${ANDROID_SDK_ROOT}/ndk/21.0.6113669"
+export ANDROID_NDK_HOME="${ANDROID_SDK_ROOT}/ndk/24.0.8215888"
 export NDK_TOOLCHAIN_ROOT="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
 
 if [ ! -d $DIR ]; then
@@ -38,7 +38,7 @@ function emulator() {
         :
     fi
 
-    X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" X86_64_LINUX_ANDROID_OPENSSL_DIR="${OUTPUT_DIR}" cargo build --release --target=x86_64-linux-android
+    # X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" X86_64_LINUX_ANDROID_OPENSSL_DIR="${OUTPUT_DIR}" cargo build --release --target=x86_64-linux-android
 }
 
 function aarch64() {

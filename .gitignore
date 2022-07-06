@@ -48,3 +48,6 @@ app.*.map.json
 
 /target
 /.fvm/flutter_sdk
+/openssl*
+*.so
+*.a
