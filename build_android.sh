@@ -148,10 +148,13 @@ if [ "$1" = "all" ]; then
     emulator
     aarch64
     emulatorx86
+    armeabi-v7a
 elif [ "$1" = "aarch64" ]; then
     aarch64
 elif [ "$1" = "emulator" ]; then
     emulator
+elif [ "$1" = "armeabi-v7a" ]; then
+    armeabi-v7a
 elif [ "$1" = "emulatorx86" ]; then
     emulatorx86
 else
