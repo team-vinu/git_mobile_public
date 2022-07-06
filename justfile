@@ -17,7 +17,7 @@ gen:
     # Uncomment this line to invoke build_runner as well
     # fvm flutter pub run build_runner build
 
-device := hoge
+device := "hoge"
 
 run:
     export X86_64_LINUX_ANDROID_OPENSSL_DIR="$PWD/openssl/x86_64_android"; \
