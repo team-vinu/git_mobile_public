@@ -1,0 +1,2 @@
+[workspace]
+members = [ "libgit2-bindings" ]
