@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ffi.dart';
-import 'package:file_picker/file_picker.dart'
+import 'package:file_picker/file_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,14 +65,16 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _gitInitDirectory() {
+  void _gitInitDirectory() async {
     final _getDirectory = await FilePicker.platform.getDirectoryPath();
+    bool _dirState = false;
+    if (_getDirectory == null) {
+      _dirState = false;
+    } else {
+      _dirState = await api.gitInit(dir: _getDirectory);
+    }
     setState(() {
-      if (_getDirectory == null) {
-        _isOpened = false;
-      } else {
-        _isOpened =  gitInit(_getDirectory);
-      }
+      _isOpened = _dirState;
     });
   }
 
