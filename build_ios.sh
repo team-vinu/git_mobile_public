@@ -26,6 +26,12 @@ function aarch64() {
     else
         :
     fi
+
+    if [ ! -d "./openssl" ]; then
+        mkdir "./openssl"
+    else
+        :
+    fi
     
     mv "${OUTPUT_DIR}" ./openssl
     rm -r "${DIR}"
