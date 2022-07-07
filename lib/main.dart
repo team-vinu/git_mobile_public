@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ffi.dart';
+import 'package:file_picker/file_picker.dart'
 
 void main() {
   runApp(const MyApp());
@@ -51,6 +52,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  bool _isOpened = false;
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -59,6 +62,17 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  void _gitInitDirectory() {
+    final _getDirectory = await FilePicker.platform.getDirectoryPath();
+    setState(() {
+      if (_getDirectory == null) {
+        _isOpened = false;
+      } else {
+        _isOpened =  gitInit(_getDirectory);
+      }
     });
   }
 
@@ -97,18 +111,18 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'The repository opened: ',
             ),
             Text(
-              '$_counter',
+              '$_isOpened',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _gitInitDirectory,
+        tooltip: 'open a directory',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
