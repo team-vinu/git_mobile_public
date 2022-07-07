@@ -1,9 +1,12 @@
 use std::path::Path;
 
 pub fn git_init(dir: String) -> bool {
-    match git2::Repository::init(Path::new(&dir)) {
+    match git2::Repository::open(Path::new(&dir)) {
         Ok(_) => true,
-        Err(_) => false,
+        Err(_) => match git2::Repository::init(Path::new(&dir)) {
+            Ok(_) => true,
+            Err(_) => false,
+        },
     }
 }
 
