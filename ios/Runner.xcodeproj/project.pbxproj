@@ -8,12 +8,37 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		21168C74287655BE008BA0A6 /* liblibgit2-bindings_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21168C6E28765550008BA0A6 /* liblibgit2-bindings_static.a */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		21168C6D28765550008BA0A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA603375A28C9D7ADC101637;
+			remoteInfo = "libgit2-bindings-staticlib";
+		};
+		21168C6F28765550008BA0A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA60FE38A71E4C18C562419A;
+			remoteInfo = "libgit2-bindings-cdylib";
+		};
+		21168C7128765595008BA0A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CA603375A28C81636DA96E03;
+			remoteInfo = "libgit2-bindings-staticlib";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
@@ -31,6 +56,7 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "libgit2-bindings.xcodeproj"; path = "../../libgit2-bindings/libgit2-bindings.xcodeproj"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,12 +75,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21168C74287655BE008BA0A6 /* liblibgit2-bindings_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21168C6928765550008BA0A6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21168C6E28765550008BA0A6 /* liblibgit2-bindings_static.a */,
+				21168C7028765550008BA0A6 /* libgit2-bindings.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		21168C73287655BE008BA0A6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +115,7 @@
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
+				21168C73287655BE008BA0A6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +138,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -115,6 +160,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				21168C7228765595008BA0A6 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
@@ -147,12 +193,35 @@
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 21168C6928765550008BA0A6 /* Products */;
+					ProjectRef = 21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		21168C6E28765550008BA0A6 /* liblibgit2-bindings_static.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "liblibgit2-bindings_static.a";
+			remoteRef = 21168C6D28765550008BA0A6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		21168C7028765550008BA0A6 /* libgit2-bindings.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = "libgit2-bindings.dylib";
+			remoteRef = 21168C6F28765550008BA0A6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		97C146EC1CF9000F007C117D /* Resources */ = {
@@ -210,6 +279,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		21168C7228765595008BA0A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "libgit2-bindings-staticlib";
+			targetProxy = 21168C7128765595008BA0A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
