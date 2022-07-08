@@ -2,7 +2,7 @@
 
 DIR="./openssl-1.1.1p"
 
-export ANDROID_NDK_HOME="${ANDROID_SDK_ROOT}/ndk/24.0.8215888"
+export ANDROID_NDK_HOME="${ANDROID_SDK_ROOT}/ndk/21.0.6113669"
 export NDK_TOOLCHAIN_ROOT="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
 
 if [ ! -d $DIR ]; then
