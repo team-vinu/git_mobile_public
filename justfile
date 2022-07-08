@@ -19,14 +19,17 @@ gen:
 
 device := "hoge"
 
-run:
-    export OPENSSL_STATIC=1; \
+run-android:
     export X86_64_LINUX_ANDROID_OPENSSL_DIR="$PWD/openssl/x86_64_android"; \
     export X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="$X86_64_LINUX_ANDROID_OPENSSL_DIR/include"; \
     export X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib"; \
     export I686_LINUX_ANDROID_OPENSSL_DIR="$PWD/openssl/i686-android"; \
     export I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="$I686_LINUX_ANDROID_OPENSSL_DIR/include"; \
     export I686_LINUX_ANDROID_OPENSSL_LIB_DIR="$I686_LINUX_ANDROID_OPENSSL_DIR/lib"; \
+    fvm flutter run -d {{device}}
+
+run-ios:
+    export OPENSSL_STATIC=1; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_DIR="$PWD/openssl/aarch64_ios"; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR="${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include"; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR="${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib"; \
