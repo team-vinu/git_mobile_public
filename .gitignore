@@ -51,3 +51,4 @@ app.*.map.json
 /openssl*
 *.so
 *.a
+/curl*

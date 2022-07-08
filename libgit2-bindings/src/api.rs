@@ -22,6 +22,13 @@ impl From<git2::Error> for RepoError {
     }
 }
 
+pub fn git_clone(dir: String, url: String) -> String {
+    match git2::Repository::clone(&url, Path::new(&dir)) {
+        Ok(_) => "Cloned successfully".to_string(),
+        Err(err) => return format!("Failed to clone: {}", err),
+    }
+}
+
 pub fn git_add(dir: String, file: String) -> String {
     let repo = match git2::Repository::open(Path::new(&dir)) {
         Ok(r) => r,

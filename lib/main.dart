@@ -38,17 +38,23 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _initMsg = "";
   String _repoOpenMsg = "";
+  String _repoCloneMsg = "";
+  String _cloneUrl = "";
 
   void _gitInitDir() async {
     final getDir = await FilePicker.platform.getDirectoryPath();
     String dirState = "";
 
-    await Permission.manageExternalStorage.request();
+    final status = await Permission.manageExternalStorage.request();
 
-    if (getDir == null) {
-      dirState = "";
+    if (status.isGranted) {
+      if (getDir == null) {
+        dirState = "";
+      } else {
+        dirState = await api.gitInit(dir: getDir);
+      }
     } else {
-      dirState = await api.gitInit(dir: getDir);
+      dirState = "Permission denied.";
     }
     setState(() {
       _initMsg = dirState;
@@ -59,10 +65,36 @@ class _MyHomePageState extends State<MyHomePage> {
     final pickedDir = await FilePicker.platform.getDirectoryPath();
     String msg = "";
 
-    if (pickedDir == null) {
-      msg = "Failed to open directory.";
+    final status = await Permission.manageExternalStorage.request();
+
+    if (status.isGranted) {
+      if (pickedDir == null) {
+        msg = "Failed to open directory.";
+      } else {
+        msg = await api.gitOpen(dir: pickedDir);
+      }
     } else {
-      msg = await api.gitOpen(dir: pickedDir);
+      msg = "Permission denied.";
+    }
+    setState(() {
+      _repoOpenMsg = msg;
+    });
+  }
+
+  void _gitClone() async {
+    final pickedDir = await FilePicker.platform.getDirectoryPath();
+    String msg = "";
+
+    final status = await Permission.manageExternalStorage.request();
+
+    if (status.isGranted) {
+      if (pickedDir == null) {
+        msg = "Failed to open directory.";
+      } else {
+        msg = await api.gitClone(dir: pickedDir, url: _cloneUrl);
+      }
+    } else {
+      msg = "Permission denied.";
     }
     setState(() {
       _repoOpenMsg = msg;
@@ -99,6 +131,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               _repoOpenMsg,
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            ElevatedButton(
+              onPressed: _gitClone,
+              child: const Text('Clone'),
+            ),
+            TextField(
+              decoration: InputDecoration(hintText: "Clone URL"),
+              onChanged: (url) {
+                _cloneUrl = url;
+              },
+            ),
+            Text(
+              _repoCloneMsg,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],

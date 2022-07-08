@@ -12,6 +12,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Libgit2Bindings {
+  Future<String> gitClone(
+      {required String dir, required String url, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGitCloneConstMeta;
+
   Future<String> gitAdd(
       {required String dir, required String file, dynamic hint});
 
@@ -52,6 +57,23 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
       Libgit2BindingsImpl.raw(Libgit2BindingsWire(dylib));
 
   Libgit2BindingsImpl.raw(Libgit2BindingsWire inner) : super(inner);
+
+  Future<String> gitClone(
+          {required String dir, required String url, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_git_clone(
+            port_, _api2wire_String(dir), _api2wire_String(url)),
+        parseSuccessData: _wire2api_String,
+        constMeta: kGitCloneConstMeta,
+        argValues: [dir, url],
+        hint: hint,
+      ));
+
+  FlutterRustBridgeTaskConstMeta get kGitCloneConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "git_clone",
+        argNames: ["dir", "url"],
+      );
 
   Future<String> gitAdd(
           {required String dir, required String file, dynamic hint}) =>
@@ -208,6 +230,26 @@ class Libgit2BindingsWire implements FlutterRustBridgeWireBase {
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
+
+  void wire_git_clone(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> dir,
+    ffi.Pointer<wire_uint_8_list> url,
+  ) {
+    return _wire_git_clone(
+      port_,
+      dir,
+      url,
+    );
+  }
+
+  late final _wire_git_clonePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_git_clone');
+  late final _wire_git_clone = _wire_git_clonePtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_git_add(
     int port_,
