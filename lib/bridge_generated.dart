@@ -16,7 +16,7 @@ abstract class Libgit2Bindings {
 
   FlutterRustBridgeTaskConstMeta get kGitInitConstMeta;
 
-  Future<bool> gitOpen({required String dir, dynamic hint});
+  Future<String> gitOpen({required String dir, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGitOpenConstMeta;
 
@@ -58,10 +58,10 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
         argNames: ["dir"],
       );
 
-  Future<bool> gitOpen({required String dir, dynamic hint}) =>
+  Future<String> gitOpen({required String dir, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_git_open(port_, _api2wire_String(dir)),
-        parseSuccessData: _wire2api_bool,
+        parseSuccessData: _wire2api_String,
         constMeta: kGitOpenConstMeta,
         argValues: [dir],
         hint: hint,

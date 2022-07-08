@@ -36,21 +36,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _isOpened = "";
+  String _initMsg = "";
+  String _repoOpenMsg = "";
 
-  void _gitInitDirectory() async {
-    final _getDirectory = await FilePicker.platform.getDirectoryPath();
-    String _dirState = "";
+  void _gitInitDir() async {
+    final getDir = await FilePicker.platform.getDirectoryPath();
+    String dirState = "";
 
     await Permission.manageExternalStorage.request();
 
-    if (_getDirectory == null) {
-      _dirState = "";
+    if (getDir == null) {
+      dirState = "";
     } else {
-      _dirState = await api.gitInit(dir: _getDirectory);
+      dirState = await api.gitInit(dir: getDir);
     }
     setState(() {
-      _isOpened = _dirState;
+      _initMsg = dirState;
+    });
+  }
+
+  void _gitOpenDir() async {
+    final pickedDir = await FilePicker.platform.getDirectoryPath();
+    String msg = "";
+
+    if (pickedDir == null) {
+      msg = "Failed to open directory.";
+    } else {
+      msg = await api.gitOpen(dir: pickedDir);
+    }
+    setState(() {
+      _repoOpenMsg = msg;
     });
   }
 
@@ -65,23 +80,29 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: _gitInitDirectory,
+              onPressed: _gitInitDir,
               child: const Text('init'),
+            ),
+            const Text(
+              'The repository init: ',
+            ),
+            Text(
+              _initMsg,
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            ElevatedButton(
+              onPressed: _gitOpenDir,
+              child: const Text('open'),
             ),
             const Text(
               'The repository opened: ',
             ),
             Text(
-              '$_isOpened',
+              _repoOpenMsg,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _gitInitDirectory,
-        tooltip: 'open a directory',
-        child: const Icon(Icons.add),
       ),
     );
   }
