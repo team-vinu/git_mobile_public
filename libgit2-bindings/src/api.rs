@@ -50,10 +50,10 @@ pub fn git_init(dir: String) -> String {
     }
 }
 
-pub fn git_open(dir: String) -> bool {
+pub fn git_open(dir: String) -> String {
     match git2::Repository::open(Path::new(&dir)) {
-        Ok(_) => true,
-        Err(_) => false,
+        Ok(_) => "Opened successfully!".to_string(),
+        Err(err) => format!("{:?}", err),
     }
 }
 
