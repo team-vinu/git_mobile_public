@@ -1,12 +1,38 @@
 use std::path::Path;
 
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum RepoError {
+    #[error("Git Error: {:?}", 0)]
+    GitError(git2::Error),
+    #[error("IO Error: {:?}", 0)]
+    IOError(std::io::Error),
+}
+
+impl From<std::io::Error> for RepoError {
+    fn from(err: std::io::Error) -> Self {
+        Self::IOError(err)
+    }
+}
+
+impl From<git2::Error> for RepoError {
+    fn from(err: git2::Error) -> Self {
+        Self::GitError(err)
+    }
+}
+
 pub fn git_init(dir: String) -> bool {
+    match git2::Repository::init(Path::new(&dir)) {
+        Ok(_) => true,
+        Err(_) => false,
+    }
+}
+
+pub fn git_open(dir: String) -> bool {
     match git2::Repository::open(Path::new(&dir)) {
         Ok(_) => true,
-        Err(_) => match git2::Repository::init(Path::new(&dir)) {
-            Ok(_) => true,
-            Err(_) => false,
-        },
+        Err(_) => false,
     }
 }
 

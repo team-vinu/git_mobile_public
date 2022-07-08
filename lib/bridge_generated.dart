@@ -16,6 +16,10 @@ abstract class Libgit2Bindings {
 
   FlutterRustBridgeTaskConstMeta get kGitInitConstMeta;
 
+  Future<bool> gitOpen({required String dir, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGitOpenConstMeta;
+
   Future<Platform> platform({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kPlatformConstMeta;
@@ -51,6 +55,21 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
   FlutterRustBridgeTaskConstMeta get kGitInitConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "git_init",
+        argNames: ["dir"],
+      );
+
+  Future<bool> gitOpen({required String dir, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_git_open(port_, _api2wire_String(dir)),
+        parseSuccessData: _wire2api_bool,
+        constMeta: kGitOpenConstMeta,
+        argValues: [dir],
+        hint: hint,
+      ));
+
+  FlutterRustBridgeTaskConstMeta get kGitOpenConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "git_open",
         argNames: ["dir"],
       );
 
@@ -149,6 +168,23 @@ class Libgit2BindingsWire implements FlutterRustBridgeWireBase {
           ffi.Void Function(
               ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_git_init');
   late final _wire_git_init = _wire_git_initPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_git_open(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> dir,
+  ) {
+    return _wire_git_open(
+      port_,
+      dir,
+    );
+  }
+
+  late final _wire_git_openPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_git_open');
+  late final _wire_git_open = _wire_git_openPtr
       .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_platform(

@@ -33,6 +33,21 @@ pub extern "C" fn wire_git_init(port_: i64, dir: *mut wire_uint_8_list) {
 }
 
 #[no_mangle]
+pub extern "C" fn wire_git_open(port_: i64, dir: *mut wire_uint_8_list) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "git_open",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_dir = dir.wire2api();
+            move |task_callback| Ok(git_open(api_dir))
+        },
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn wire_platform(port_: i64) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {

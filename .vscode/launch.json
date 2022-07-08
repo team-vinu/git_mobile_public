@@ -3,30 +3,52 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid:830387
     "version": "0.2.0",
-    "env": {
-        "AARCH64_APPLE_IOS_SIM_OPENSSL_DIR":"$PWD/openssl/aarch64_ios",
-        "AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR": "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include",
-        "AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR":"${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib",
-        "X86_64_LINUX_ANDROID_OPENSSL_DIR":"$PWD/openssl/x86_64_android",
-        "X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/include",
-        "X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib",
-        "I686_LINUX_ANDROID_OPENSSL_DIR":"$PWD/openssl/i686-android",
-        "I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/include",
-        "I686_LINUX_ANDROID_OPENSSL_LIB_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/lib",
-    },
     "configurations": [
         {
+            "env": {
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_DIR":"${workspaceFolder}/openssl/aarch64_ios",
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR": "${workspaceFolder}/openssl/aarch64_ios/include",
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR":"${workspaceFolder}/openssl/aarch64_ios/lib",
+                "X86_64_LINUX_ANDROID_OPENSSL_DIR":"${workspaceFolder}/openssl/x86_64_android",
+                "X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/include",
+                "X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib",
+                "I686_LINUX_ANDROID_OPENSSL_DIR":"${workspaceFolder}/openssl/i686-android",
+                "I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/include",
+                "I686_LINUX_ANDROID_OPENSSL_LIB_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/lib"
+            },
             "name": "git_mobile",
             "request": "launch",
             "type": "dart"
         },
         {
+            "env": {
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_DIR":"$PWD/openssl/aarch64_ios",
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR": "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include",
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR":"${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib",
+                "X86_64_LINUX_ANDROID_OPENSSL_DIR":"$PWD/openssl/x86_64_android",
+                "X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/include",
+                "X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib",
+                "I686_LINUX_ANDROID_OPENSSL_DIR":"$PWD/openssl/i686-android",
+                "I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/include",
+                "I686_LINUX_ANDROID_OPENSSL_LIB_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/lib"
+            },
             "name": "git_mobile (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
+            "env": {
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_DIR":"$PWD/openssl/aarch64_ios",
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR": "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include",
+                "AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR":"${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib",
+                "X86_64_LINUX_ANDROID_OPENSSL_DIR":"$PWD/openssl/x86_64_android",
+                "X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/include",
+                "X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR":"$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib",
+                "I686_LINUX_ANDROID_OPENSSL_DIR":"$PWD/openssl/i686-android",
+                "I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/include",
+                "I686_LINUX_ANDROID_OPENSSL_LIB_DIR":"$I686_LINUX_ANDROID_OPENSSL_DIR/lib"
+            },
             "name": "git_mobile (release mode)",
             "request": "launch",
             "type": "dart",
