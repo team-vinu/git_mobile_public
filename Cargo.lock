@@ -4,9 +4,9 @@ version = 3
 
 [[package]]
 name = "allo-isolate"
-version = "0.1.13-beta.5"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c1a52c9b965fdaf940102bcb1a0aef4bc2f56489056f5872cef705651c7972e"
+checksum = "31644a919a9e4b0188e4569e55bbf5a78b5588ea645acffc15c29240407261bc"
 dependencies = [
  "atomic",
 ]
@@ -55,9 +55,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "flutter_rust_bridge"
-version = "1.37.1"
+version = "1.28.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85dfb10a95f372aaa9c4d8b1eb5da0cd5c80bff4c93e78be2d71d0e36b063036"
+checksum = "7236264488ba563ee0ee3ada56989a8535a79f85ff76cd3a7c82275ffb958ab1"
 dependencies = [
  "allo-isolate",
  "anyhow",
