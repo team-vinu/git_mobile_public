@@ -22,10 +22,31 @@ impl From<git2::Error> for RepoError {
     }
 }
 
-pub fn git_init(dir: String) -> bool {
+/*
+pub fn git_commit(dir: String, msg: String) -> String {
+    let repo = match git2::Repository::open(Path::new(&dir)) {
+        Ok(r) => r,
+        Err(_) => return "Cannot open the repository.".to_string(),
+    };
+    let sign = git2::Signature::now("Example", "example@example.com").unwrap();
+    match repo.commit(
+        None,
+        &sign,
+        &sign,
+        msg.as_str(),
+        &repo.tree().unwrap(),
+        &repo.parent().unwrap(),
+    ) {
+        Ok(_) => "Commited successfully.".to_string(),
+        Err(_) => "Failed to commit.".to_string(),
+    }
+}
+*/
+
+pub fn git_init(dir: String) -> String {
     match git2::Repository::init(Path::new(&dir)) {
-        Ok(_) => true,
-        Err(_) => false,
+        Ok(_) => "Initialized successfully!".to_string(),
+        Err(err) => format!("{:?}", err),
     }
 }
 

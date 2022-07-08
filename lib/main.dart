@@ -1,6 +1,9 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'ffi.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,13 +36,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isOpened = false;
+  String _isOpened = "";
 
   void _gitInitDirectory() async {
     final _getDirectory = await FilePicker.platform.getDirectoryPath();
-    bool _dirState = false;
+    final file = io.File('$_getDirectory/hello.txt');
+    String _dirState = "";
+
+    await Permission.manageExternalStorage.request();
+
     if (_getDirectory == null) {
-      _dirState = false;
+      _dirState = "";
     } else {
       _dirState = await api.gitInit(dir: _getDirectory);
     }

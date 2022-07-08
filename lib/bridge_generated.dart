@@ -12,7 +12,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Libgit2Bindings {
-  Future<bool> gitInit({required String dir, dynamic hint});
+  Future<String> gitInit({required String dir, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGitInitConstMeta;
 
@@ -43,10 +43,10 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
 
   Libgit2BindingsImpl.raw(Libgit2BindingsWire inner) : super(inner);
 
-  Future<bool> gitInit({required String dir, dynamic hint}) =>
+  Future<String> gitInit({required String dir, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_git_init(port_, _api2wire_String(dir)),
-        parseSuccessData: _wire2api_bool,
+        parseSuccessData: _wire2api_String,
         constMeta: kGitInitConstMeta,
         argValues: [dir],
         hint: hint,
@@ -123,12 +123,24 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
 }
 
 // Section: wire2api
+String _wire2api_String(dynamic raw) {
+  return raw as String;
+}
+
 bool _wire2api_bool(dynamic raw) {
   return raw as bool;
 }
 
 Platform _wire2api_platform(dynamic raw) {
   return Platform.values[raw];
+}
+
+int _wire2api_u8(dynamic raw) {
+  return raw as int;
+}
+
+Uint8List _wire2api_uint_8_list(dynamic raw) {
+  return raw as Uint8List;
 }
 
 // ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_positional_boolean_parameters, annotate_overrides, constant_identifier_names
