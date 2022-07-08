@@ -18,6 +18,46 @@ use flutter_rust_bridge::*;
 // Section: wire functions
 
 #[no_mangle]
+pub extern "C" fn wire_git_add(
+    port_: i64,
+    dir: *mut wire_uint_8_list,
+    file: *mut wire_uint_8_list,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "git_add",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_dir = dir.wire2api();
+            let api_file = file.wire2api();
+            move |task_callback| Ok(git_add(api_dir, api_file))
+        },
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_git_commit(
+    port_: i64,
+    dir: *mut wire_uint_8_list,
+    msg: *mut wire_uint_8_list,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "git_commit",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_dir = dir.wire2api();
+            let api_msg = msg.wire2api();
+            move |task_callback| Ok(git_commit(api_dir, api_msg))
+        },
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn wire_git_init(port_: i64, dir: *mut wire_uint_8_list) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {

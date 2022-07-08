@@ -12,11 +12,21 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Libgit2Bindings {
+  Future<String> gitAdd(
+      {required String dir, required String file, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGitAddConstMeta;
+
+  Future<String> gitCommit(
+      {required String dir, required String msg, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGitCommitConstMeta;
+
   Future<String> gitInit({required String dir, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGitInitConstMeta;
 
-  Future<bool> gitOpen({required String dir, dynamic hint});
+  Future<String> gitOpen({required String dir, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGitOpenConstMeta;
 
@@ -43,6 +53,40 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
 
   Libgit2BindingsImpl.raw(Libgit2BindingsWire inner) : super(inner);
 
+  Future<String> gitAdd(
+          {required String dir, required String file, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_git_add(
+            port_, _api2wire_String(dir), _api2wire_String(file)),
+        parseSuccessData: _wire2api_String,
+        constMeta: kGitAddConstMeta,
+        argValues: [dir, file],
+        hint: hint,
+      ));
+
+  FlutterRustBridgeTaskConstMeta get kGitAddConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "git_add",
+        argNames: ["dir", "file"],
+      );
+
+  Future<String> gitCommit(
+          {required String dir, required String msg, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_git_commit(
+            port_, _api2wire_String(dir), _api2wire_String(msg)),
+        parseSuccessData: _wire2api_String,
+        constMeta: kGitCommitConstMeta,
+        argValues: [dir, msg],
+        hint: hint,
+      ));
+
+  FlutterRustBridgeTaskConstMeta get kGitCommitConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "git_commit",
+        argNames: ["dir", "msg"],
+      );
+
   Future<String> gitInit({required String dir, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_git_init(port_, _api2wire_String(dir)),
@@ -58,10 +102,10 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
         argNames: ["dir"],
       );
 
-  Future<bool> gitOpen({required String dir, dynamic hint}) =>
+  Future<String> gitOpen({required String dir, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_git_open(port_, _api2wire_String(dir)),
-        parseSuccessData: _wire2api_bool,
+        parseSuccessData: _wire2api_String,
         constMeta: kGitOpenConstMeta,
         argValues: [dir],
         hint: hint,
@@ -164,6 +208,46 @@ class Libgit2BindingsWire implements FlutterRustBridgeWireBase {
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
+
+  void wire_git_add(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> dir,
+    ffi.Pointer<wire_uint_8_list> file,
+  ) {
+    return _wire_git_add(
+      port_,
+      dir,
+      file,
+    );
+  }
+
+  late final _wire_git_addPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_git_add');
+  late final _wire_git_add = _wire_git_addPtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_git_commit(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> dir,
+    ffi.Pointer<wire_uint_8_list> msg,
+  ) {
+    return _wire_git_commit(
+      port_,
+      dir,
+      msg,
+    );
+  }
+
+  late final _wire_git_commitPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_git_commit');
+  late final _wire_git_commit = _wire_git_commitPtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_git_init(
     int port_,

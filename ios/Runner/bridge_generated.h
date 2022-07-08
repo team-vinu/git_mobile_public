@@ -17,6 +17,10 @@ typedef int64_t DartPort;
 
 typedef bool (*DartPostCObjectFnType)(DartPort port_id, void *message);
 
+void wire_git_add(int64_t port_, struct wire_uint_8_list *dir, struct wire_uint_8_list *file);
+
+void wire_git_commit(int64_t port_, struct wire_uint_8_list *dir, struct wire_uint_8_list *msg);
+
 void wire_git_init(int64_t port_, struct wire_uint_8_list *dir);
 
 void wire_git_open(int64_t port_, struct wire_uint_8_list *dir);
@@ -33,6 +37,8 @@ void store_dart_post_cobject(DartPostCObjectFnType ptr);
 
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
+    dummy_var ^= ((int64_t) (void*) wire_git_add);
+    dummy_var ^= ((int64_t) (void*) wire_git_commit);
     dummy_var ^= ((int64_t) (void*) wire_git_init);
     dummy_var ^= ((int64_t) (void*) wire_git_open);
     dummy_var ^= ((int64_t) (void*) wire_platform);
