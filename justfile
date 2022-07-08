@@ -29,7 +29,6 @@ run-android:
     fvm flutter run -d {{device}}
 
 run-ios:
-    export OPENSSL_STATIC=1; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_DIR="$PWD/openssl/aarch64_ios"; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR="${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include"; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR="${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib"; \
