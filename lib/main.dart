@@ -40,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _gitInitDirectory() async {
     final _getDirectory = await FilePicker.platform.getDirectoryPath();
-    final file = io.File('$_getDirectory/hello.txt');
     String _dirState = "";
 
     await Permission.manageExternalStorage.request();
