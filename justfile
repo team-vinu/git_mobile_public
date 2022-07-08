@@ -15,11 +15,12 @@ gen:
         --c-output "$REPO_DIR/ios/Runner/bridge_generated.h" \
         # --c-output "$REPO_DIR/macos/Runner/bridge_generated.h"
     # Uncomment this line to invoke build_runner as well
-    # fvm flutter pub run build_runner build
+    fvm flutter pub run build_runner build
 
 device := "hoge"
 
 run:
+    export OPENSSL_STATIC=1; \
     export X86_64_LINUX_ANDROID_OPENSSL_DIR="$PWD/openssl/x86_64_android"; \
     export X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="$X86_64_LINUX_ANDROID_OPENSSL_DIR/include"; \
     export X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib"; \
