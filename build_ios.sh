@@ -15,7 +15,7 @@ function aarch64() {
     if [ ! -d ${OUTPUT_DIR} ]; then
         cd "${DIR}"
 
-        ./Configure ios64-cross --prefix=${OUTPUT_DIR}
+        ./Configure iossimulator-xcrun -static --prefix=${OUTPUT_DIR}
 
         CROSS_COMPILE=`xcode-select --print-path`/Toolchains/XcodeDefault.xctoolchain/usr/bin/ CROSS_TOP=`xcode-select --print-path`/Platforms/iPhoneOS.platform/Developer CROSS_SDK=iPhoneOS.sdk make
 
