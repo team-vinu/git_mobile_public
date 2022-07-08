@@ -17,7 +17,6 @@ pub fn git_init(dir: String) -> bool {
 // A plain enum without any fields. This is similar to Dart- or C-style enums.
 // flutter_rust_bridge is capable of generating code for enums with fields
 // (@freezed classes in Dart and tagged unions in C).
-#[repr(C)]
 pub enum Platform {
     Unknown,
     Android,
