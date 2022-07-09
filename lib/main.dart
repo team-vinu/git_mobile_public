@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final status = await Permission.manageExternalStorage.request();
 
-    if (status.isGranted) {
+    if (status.isGranted && io.Platform.isAndroid) {
       if (pickedDir == null) {
         msg = "Failed to open directory.";
       } else {
