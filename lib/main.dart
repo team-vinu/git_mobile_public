@@ -61,14 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final status = await Permission.manageExternalStorage.request();
 
-    if (status.isGranted) {
-      if (getDir == null) {
-        dirState = "";
-      } else {
-        dirState = await api.gitInit(dir: getDir);
-      }
+    // if (status.isGranted) {
+    if (getDir == null) {
+      dirState = "";
     } else {
-      dirState = "Permission denied.";
+      dirState = await api.gitInit(dir: getDir);
     }
     setState(() {
       _initMsg = dirState;
@@ -81,14 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final status = await Permission.manageExternalStorage.request();
 
-    if (status.isGranted) {
-      if (pickedDir == null) {
-        msg = "Failed to open directory.";
-      } else {
-        msg = await api.gitOpen(dir: pickedDir);
-      }
+    // if (status.isGranted) {
+    if (pickedDir == null) {
+      msg = "Failed to open directory.";
     } else {
-      msg = "Permission denied.";
+      msg = await api.gitOpen(dir: pickedDir);
     }
     setState(() {
       _repoCloneMsg = msg;
@@ -101,14 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final status = await Permission.manageExternalStorage.request();
 
-    if (status.isGranted && io.Platform.isAndroid) {
-      if (pickedDir == null) {
-        msg = "Failed to open directory.";
-      } else {
-        msg = await api.gitHttpsClone(dir: pickedDir, url: _cloneUrl);
-      }
+    if (pickedDir == null) {
+      msg = "Failed to open directory.";
     } else {
-      msg = "Permission denied.";
+      msg = await api.gitHttpsClone(dir: pickedDir, url: _cloneUrl);
     }
     setState(() {
       _repoOpenMsg = msg;
