@@ -18,21 +18,41 @@ use flutter_rust_bridge::*;
 // Section: wire functions
 
 #[no_mangle]
-pub extern "C" fn wire_git_clone(
+pub extern "C" fn wire_git_https_clone(
     port_: i64,
     dir: *mut wire_uint_8_list,
     url: *mut wire_uint_8_list,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "git_clone",
+            debug_name: "git_https_clone",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_dir = dir.wire2api();
             let api_url = url.wire2api();
-            move |task_callback| Ok(git_clone(api_dir, api_url))
+            move |task_callback| Ok(git_https_clone(api_dir, api_url))
+        },
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_git_http_clone(
+    port_: i64,
+    dir: *mut wire_uint_8_list,
+    url: *mut wire_uint_8_list,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "git_http_clone",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_dir = dir.wire2api();
+            let api_url = url.wire2api();
+            move |task_callback| Ok(git_http_clone(api_dir, api_url))
         },
     )
 }

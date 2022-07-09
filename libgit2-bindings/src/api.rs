@@ -1,6 +1,5 @@
-use std::path::Path;
+use std::{path::Path, sync::Mutex};
 
-use git2::build;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
@@ -23,9 +22,16 @@ impl From<git2::Error> for RepoError {
     }
 }
 
-pub fn git_clone(dir: String, url: String) -> String {
+pub fn git_https_clone(dir: String, url: String) -> String {
+    match git2::Repository::clone(&url, Path::new(&dir)) {
+        Ok(_) => "Cloned successfully".to_string(),
+        Err(err) => return format!("Failed to clone: {}", err),
+    }
+}
+
+pub fn git_http_clone(dir: String, url: String) -> String {
     let mut cbs = git2::RemoteCallbacks::new();
-    cbs.certificate_check(|crt, str| true);
+    cbs.certificate_check(|_crt, _str| true);
     let mut fetch_opts = git2::FetchOptions::new();
     fetch_opts.remote_callbacks(cbs);
     let mut builder = git2::build::RepoBuilder::new();

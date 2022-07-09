@@ -12,10 +12,15 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Libgit2Bindings {
-  Future<String> gitClone(
+  Future<String> gitHttpsClone(
       {required String dir, required String url, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kGitCloneConstMeta;
+  FlutterRustBridgeTaskConstMeta get kGitHttpsCloneConstMeta;
+
+  Future<String> gitHttpClone(
+      {required String dir, required String url, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGitHttpCloneConstMeta;
 
   Future<String> gitAdd(
       {required String dir, required String file, dynamic hint});
@@ -58,20 +63,37 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
 
   Libgit2BindingsImpl.raw(Libgit2BindingsWire inner) : super(inner);
 
-  Future<String> gitClone(
+  Future<String> gitHttpsClone(
           {required String dir, required String url, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) => inner.wire_git_clone(
+        callFfi: (port_) => inner.wire_git_https_clone(
             port_, _api2wire_String(dir), _api2wire_String(url)),
         parseSuccessData: _wire2api_String,
-        constMeta: kGitCloneConstMeta,
+        constMeta: kGitHttpsCloneConstMeta,
         argValues: [dir, url],
         hint: hint,
       ));
 
-  FlutterRustBridgeTaskConstMeta get kGitCloneConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kGitHttpsCloneConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "git_clone",
+        debugName: "git_https_clone",
+        argNames: ["dir", "url"],
+      );
+
+  Future<String> gitHttpClone(
+          {required String dir, required String url, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_git_http_clone(
+            port_, _api2wire_String(dir), _api2wire_String(url)),
+        parseSuccessData: _wire2api_String,
+        constMeta: kGitHttpCloneConstMeta,
+        argValues: [dir, url],
+        hint: hint,
+      ));
+
+  FlutterRustBridgeTaskConstMeta get kGitHttpCloneConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "git_http_clone",
         argNames: ["dir", "url"],
       );
 
@@ -231,23 +253,43 @@ class Libgit2BindingsWire implements FlutterRustBridgeWireBase {
           lookup)
       : _lookup = lookup;
 
-  void wire_git_clone(
+  void wire_git_https_clone(
     int port_,
     ffi.Pointer<wire_uint_8_list> dir,
     ffi.Pointer<wire_uint_8_list> url,
   ) {
-    return _wire_git_clone(
+    return _wire_git_https_clone(
       port_,
       dir,
       url,
     );
   }
 
-  late final _wire_git_clonePtr = _lookup<
+  late final _wire_git_https_clonePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_uint_8_list>)>>('wire_git_clone');
-  late final _wire_git_clone = _wire_git_clonePtr.asFunction<
+              ffi.Pointer<wire_uint_8_list>)>>('wire_git_https_clone');
+  late final _wire_git_https_clone = _wire_git_https_clonePtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_git_http_clone(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> dir,
+    ffi.Pointer<wire_uint_8_list> url,
+  ) {
+    return _wire_git_http_clone(
+      port_,
+      dir,
+      url,
+    );
+  }
+
+  late final _wire_git_http_clonePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_git_http_clone');
+  late final _wire_git_http_clone = _wire_git_http_clonePtr.asFunction<
       void Function(
           int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
