@@ -4,9 +4,23 @@ import 'package:flutter/material.dart';
 import 'ffi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final repoProvider =
+    StateNotifierProvider<RepoController, String>((ref) => RepoController(ref));
+
+class RepoController extends StateNotifier<String> {
+  RepoController(this.ref) : super("");
+  final Ref ref;
+
+  Future<String> getDir() async {
+    String? ret = await FilePicker.platform.getDirectoryPath();
+    return ret!;
+  }
+}
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
