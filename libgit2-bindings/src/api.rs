@@ -1,25 +1,64 @@
-use std::{path::Path, sync::Mutex};
+use ssh_key::{rand_core, PrivateKey};
+use std::path::Path;
 
-use thiserror::Error;
-
-#[derive(Debug, Error)]
-pub enum RepoError {
-    #[error("Git Error: {:?}", 0)]
-    GitError(git2::Error),
-    #[error("IO Error: {:?}", 0)]
-    IOError(std::io::Error),
+pub struct KeyPair {
+    pub pubkey: Vec<u8>,
+    pub privkey: Vec<u8>,
 }
 
-impl From<std::io::Error> for RepoError {
-    fn from(err: std::io::Error) -> Self {
-        Self::IOError(err)
-    }
+pub enum Algorithm {
+    Rsa,
+    Dsa,
+    Ed25519,
 }
 
-impl From<git2::Error> for RepoError {
-    fn from(err: git2::Error) -> Self {
-        Self::GitError(err)
+pub fn ssh_keygen(passwd: Option<String>, algorithm: Algorithm) -> Option<KeyPair> {
+    let unencrypted_privkey = match algorithm {
+        Algorithm::Rsa => PrivateKey::random(
+            &mut rand_core::OsRng,
+            ssh_key::Algorithm::Rsa {
+                hash: Some(ssh_key::HashAlg::Sha256),
+            },
+        ),
+        Algorithm::Dsa => PrivateKey::random(&mut rand_core::OsRng, ssh_key::Algorithm::Dsa),
+        Algorithm::Ed25519 => {
+            PrivateKey::random(&mut rand_core::OsRng, ssh_key::Algorithm::Ed25519)
+        }
+    };
+    let unencrypted_privkey = match unencrypted_privkey {
+        Ok(key) => key,
+        Err(_) => return None,
+    };
+
+    let pubkey = unencrypted_privkey.public_key();
+    if passwd.is_some() {
+        let encrypted_privkey =
+            match unencrypted_privkey.encrypt(&mut rand_core::OsRng, &passwd.unwrap().as_str()) {
+                Ok(key) => key,
+                Err(_) => return None,
+            };
+        return Some(KeyPair {
+            pubkey: match pubkey.to_bytes() {
+                Ok(key) => key.to_vec(),
+                Err(_) => return None,
+            },
+            privkey: match encrypted_privkey.to_bytes() {
+                Ok(key) => key.to_vec(),
+                Err(_) => return None,
+            },
+        });
     }
+
+    Some(KeyPair {
+        pubkey: match pubkey.to_bytes() {
+            Ok(key) => key.to_vec(),
+            Err(_) => return None,
+        },
+        privkey: match unencrypted_privkey.to_bytes() {
+            Ok(key) => key.to_vec(),
+            Err(_) => return None,
+        },
+    })
 }
 
 pub fn git_https_clone(dir: String, url: String) -> String {
