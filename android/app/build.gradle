@@ -99,12 +99,13 @@ dependencies {
         // Until https://github.com/bbqsrc/cargo-ndk/pull/13 is merged,
         // this workaround is necessary.
         // -t arm64-v8a -t armeabi-v7a -t x86_64-linux-android \
+        // && cd .. && \
+        // x86_64-linux-android-ld -shared -lssl -lcrypto -L./openssl/x86_64_android/lib/ android/app/src/main/jniLibs/x86_64/liblibgit2_bindings.so -o android/app/src/main/jniLibs/x86_64/liblibgit2_bindings.so&& \
+        // i686-linux-android-ld -shared -lssl -lcrypto -L./openssl/i686-android/lib/ android/app/src/main/jniLibs/x86/liblibgit2_bindings.so -o android/app/src/main/jniLibs/x86/liblibgit2_bindings.so
         commandLine 'sh', '-c', """cd ../../libgit2-bindings && \
         ANDROID_NDK_HOME="$ANDROID_NDK" cargo ndk \
          -t x86 -t x86_64 \
-         -o ../android/app/src/main/jniLibs build $profileMode && cd .. && \
-         x86_64-linux-android-ld -lssl -lcrypto -L./openssl/x86_64_android/lib/ android/app/src/main/jniLibs/x86_64/liblibgit2_bindings.so ./curl/x86_64-android/lib/libcurl.a && \
-         i686-linux-android-ld -lssl -lcrypto -L./openssl/i686-android/lib/ android/app/src/main/jniLibs/x86/liblibgit2_bindings.so ./curl/i686-android/lib/libcurl.a"""
+         -o ../android/app/src/main/jniLibs build $profileMode"""
         /*commandLine 'sh', '-c', """cd ../../libgit2-bindings && \
            cargo build $profileMode --target=i686-linux-android && \
            mkdir -p ../android/app/src/main/jniLibs/x86 && \

@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       msg = "Permission denied.";
     }
     setState(() {
-      _repoOpenMsg = msg;
+      _repoCloneMsg = msg;
     });
   }
 
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (pickedDir == null) {
         msg = "Failed to open directory.";
       } else {
-        msg = await api.gitClone(dir: pickedDir, url: _cloneUrl);
+        msg = await api.gitHttpsClone(dir: pickedDir, url: _cloneUrl);
       }
     } else {
       msg = "Permission denied.";
