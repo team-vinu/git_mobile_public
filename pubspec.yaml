@@ -22,7 +22,7 @@ environment:
 
 ffigen:
   compiler-opts:
-    - '-ldl'
+    - "-ldl"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -33,6 +33,12 @@ ffigen:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Riverpod pattern
+  flutter_riverpod: ^2.0.0-dev.9
+
+  # Device preview
+  device_preview: ^1.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
