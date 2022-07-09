@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		21168CE72877CF76008BA0A6 /* liblibgit2-bindings_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21168CE62877CF76008BA0A6 /* liblibgit2-bindings_static.a */; };
-		21168CF92877F223008BA0A6 /* libcrypto.a in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 21168CC72877C635008BA0A6 /* libcrypto.a */; };
-		21168CFA2877F223008BA0A6 /* libssl.a in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 21168CC52877C635008BA0A6 /* libssl.a */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -44,14 +42,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		21168D3D287946E0008BA0A6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				21168CF92877F223008BA0A6 /* libcrypto.a in Embed Frameworks */,
-				21168CFA2877F223008BA0A6 /* libssl.a in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,6 +69,8 @@
 		21168C602876553F008BA0A6 /* libgit2-bindings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "libgit2-bindings.xcodeproj"; path = "../../libgit2-bindings/libgit2-bindings.xcodeproj"; sourceTree = "<group>"; };
 		21168CC52877C635008BA0A6 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../openssl/aarch64_ios/lib/libssl.a; sourceTree = "<group>"; };
 		21168CC72877C635008BA0A6 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../openssl/aarch64_ios/lib/libcrypto.a; sourceTree = "<group>"; };
+		21168D30287944D9008BA0A6 /* libcrypto.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.1.dylib; path = ../openssl/aarch64_ios/lib/libcrypto.1.1.dylib; sourceTree = "<group>"; };
+		21168D32287944D9008BA0A6 /* libssl.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.1.dylib; path = ../openssl/aarch64_ios/lib/libssl.1.1.dylib; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		5214C69A9DAC95A15B697DA6 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -106,6 +113,8 @@
 		21168C73287655BE008BA0A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				21168D30287944D9008BA0A6 /* libcrypto.1.1.dylib */,
+				21168D32287944D9008BA0A6 /* libssl.1.1.dylib */,
 				21168CC72877C635008BA0A6 /* libcrypto.a */,
 				21168CC52877C635008BA0A6 /* libssl.a */,
 				5214C69A9DAC95A15B697DA6 /* Pods_Runner.framework */,
@@ -184,6 +193,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				A286BB5DC19DA1ECB46D3C35 /* [CP] Embed Pods Frameworks */,
+				21168D3D287946E0008BA0A6 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -491,6 +501,8 @@
 					Security,
 					"-framework",
 					CoreFoundation,
+					"-lssl",
+					"-lcrypto",
 					"-lz",
 					"-liconv",
 					"-lSystem",
@@ -503,6 +515,7 @@
 					"-lc",
 					"-lm",
 					"-liconv",
+					"-L../openssl/aarch64_ios/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.gitMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -695,6 +708,8 @@
 					Security,
 					"-framework",
 					CoreFoundation,
+					"-lssl",
+					"-lcrypto",
 					"-lz",
 					"-liconv",
 					"-lSystem",
@@ -707,6 +722,7 @@
 					"-lc",
 					"-lm",
 					"-liconv",
+					"-L../openssl/aarch64_ios/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.gitMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -776,6 +792,8 @@
 					Security,
 					"-framework",
 					CoreFoundation,
+					"-lssl",
+					"-lcrypto",
 					"-lz",
 					"-liconv",
 					"-lSystem",
@@ -788,6 +806,7 @@
 					"-lc",
 					"-lm",
 					"-liconv",
+					"-L../openssl/aarch64_ios/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.gitMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
