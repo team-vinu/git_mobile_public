@@ -5,9 +5,6 @@ import 'dart:ffi';
 
 import 'bridge_generated.dart';
 // Re-export the bridge so it is only necessary to import this file.
-// export 'bridge_generated/api.dart';
-// export 'bridge_generated/git.dart';
-// export 'bridge_generated/ssh.dart';
 import 'dart:io' as io;
 
 const _base = 'libgit2_bindings';
