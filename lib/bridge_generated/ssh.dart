@@ -15,7 +15,9 @@ import 'dart:ffi' as ffi;
 
 abstract class ApiSsh {
   Future<fp.Option<KeyPair>> sshKeygen(
-      {fp.Option<String> passwd, required Algorithm algorithm, dynamic hint});
+      {required fp.Option<String> passwd,
+      required Algorithm algorithm,
+      dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSshKeygenConstMeta;
 }
@@ -43,7 +45,7 @@ class ApiSshImpl extends FlutterRustBridgeBase<ApiSshWire> implements ApiSsh {
   ApiSshImpl.raw(ApiSshWire inner) : super(inner);
 
   Future<fp.Option<KeyPair>> sshKeygen(
-          {fp.Option<String> passwd,
+          {required fp.Option<String> passwd,
           required Algorithm algorithm,
           dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
@@ -75,7 +77,10 @@ class ApiSshImpl extends FlutterRustBridgeBase<ApiSshWire> implements ApiSsh {
   }
 
   ffi.Pointer<wire_uint_8_list> _api2wire_opt_String(fp.Option<String> raw) {
-    return raw == null ? ffi.nullptr : _api2wire_String(raw);
+    return raw.match(
+      (r) => _api2wire_String(r),
+      () => ffi.nullptr,
+    );
   }
 
   int _api2wire_u8(int raw) {
@@ -108,7 +113,7 @@ KeyPair _wire2api_key_pair(dynamic raw) {
 }
 
 fp.Option<KeyPair> _wire2api_opt_box_autoadd_key_pair(dynamic raw) {
-  return raw == null ? fp.none() : _wire2api_box_autoadd_key_pair(raw);
+  return raw == null ? fp.none() : fp.some(_wire2api_box_autoadd_key_pair(raw));
 }
 
 int _wire2api_u8(dynamic raw) {
