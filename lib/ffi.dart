@@ -3,8 +3,7 @@
 
 import 'dart:ffi';
 
-import 'bridge_generated/api.dart' as bridged_api;
-import 'bridge_generated/git.dart' as bridged_git;
+import 'bridge_generated.dart';
 // Re-export the bridge so it is only necessary to import this file.
 // export 'bridge_generated/api.dart';
 // export 'bridge_generated/git.dart';
@@ -19,8 +18,5 @@ final _dylib = io.Platform.isWindows ? '$_base.dll' : 'lib$_base.so';
 
 // The late modifier delays initializing the value until it is actually needed,
 // leaving precious little time for the program to quickly start up.
-late final bridged_api.ApiPlatform api = bridged_api.ApiPlatformImpl(
-    io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
-
-late final bridged_git.ApiGit git = bridged_git.ApiGitImpl(
+late final Libgit2Bindings api = Libgit2BindingsImpl(
     io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
