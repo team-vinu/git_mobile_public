@@ -14,8 +14,7 @@ analyzer:
     # exclude: [build/**, lib/bridge_generated.dart, lib/ffi.dart, **.freezed.dart]
     exclude:
         - "build/**"
-        - "lib/bridge_generated.dart"
-        - "lib/ffi.dart"
+        - "lib/bridge_generated/**"
         - "**/*.freezed.dart"
     language:
         strict-inference: true
