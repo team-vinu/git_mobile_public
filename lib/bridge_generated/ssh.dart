@@ -134,7 +134,7 @@ class ApiSshWire implements FlutterRustBridgeWireBase {
       : _lookup = lookup;
 
   void free_WireSyncReturnStruct(
-    int val,
+    WireSyncReturnStruct val,
   ) {
     return _free_WireSyncReturnStruct(
       val,
@@ -142,8 +142,67 @@ class ApiSshWire implements FlutterRustBridgeWireBase {
   }
 
   late final _free_WireSyncReturnStructPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>(
+      _lookup<ffi.NativeFunction<ffi.Void Function(WireSyncReturnStruct)>>(
           'free_WireSyncReturnStruct');
-  late final _free_WireSyncReturnStruct =
-      _free_WireSyncReturnStructPtr.asFunction<void Function(int)>();
+  late final _free_WireSyncReturnStruct = _free_WireSyncReturnStructPtr
+      .asFunction<void Function(WireSyncReturnStruct)>();
+
+  void wire_ssh_keygen(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> passwd,
+    int algorithm,
+  ) {
+    return _wire_ssh_keygen(
+      port_,
+      passwd,
+      algorithm,
+    );
+  }
+
+  late final _wire_ssh_keygenPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Int32)>>('wire_ssh_keygen');
+  late final _wire_ssh_keygen = _wire_ssh_keygenPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, int)>();
+
+  ffi.Pointer<wire_uint_8_list> new_uint_8_list_2(
+    int len,
+  ) {
+    return _new_uint_8_list_2(
+      len,
+    );
+  }
+
+  late final _new_uint_8_list_2Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_uint_8_list> Function(
+              ffi.Int32)>>('new_uint_8_list_2');
+  late final _new_uint_8_list_2 = _new_uint_8_list_2Ptr
+      .asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
+
+  void store_dart_post_cobject(
+    DartPostCObjectFnType ptr,
+  ) {
+    return _store_dart_post_cobject(
+      ptr,
+    );
+  }
+
+  late final _store_dart_post_cobjectPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(DartPostCObjectFnType)>>(
+          'store_dart_post_cobject');
+  late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
+      .asFunction<void Function(DartPostCObjectFnType)>();
 }
+
+class wire_uint_8_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+typedef DartPostCObjectFnType = ffi.Pointer<
+    ffi.NativeFunction<ffi.Bool Function(DartPort, ffi.Pointer<ffi.Void>)>>;
+typedef DartPort = ffi.Int64;
