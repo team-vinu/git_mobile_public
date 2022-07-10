@@ -11,16 +11,20 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-  exclude: [build/**, lib/bridge_generated/**]
-  language:
-    strict-inference: true
-    strict-casts: true
-    strict-raw-types: true
+    # exclude: [build/**, lib/bridge_generated.dart, lib/ffi.dart, **.freezed.dart]
+    exclude:
+        - "build/**"
+        - "lib/bridge_generated.dart"
+        - "lib/ffi.dart"
+        - "**/*.freezed.dart"
+    language:
+        strict-inference: true
+        strict-casts: true
+        strict-raw-types: true
 
 linter:
-  rules:
-    - cancel_subscriptions
-
+    rules:
+        - cancel_subscriptions
 # linter:
 #   # The lint rules applied to this project can be customized in the
 #   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
