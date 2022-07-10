@@ -93,7 +93,6 @@ impl support::IntoDart for Platform {
         .into_dart()
     }
 }
-
 // Section: executor
 
 support::lazy_static! {
