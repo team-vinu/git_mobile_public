@@ -3,14 +3,16 @@ import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'home_state.dart';
+import 'package:git_mobile/state/repo/repo_state.dart';
+import 'package:git_mobile/state/file/file_state.dart';
 import 'package:git_mobile/ffi.dart';
 
 final homeViewModelProvider =
-    StateNotifierProvider.autoDispose<HomeViewModel, AsyncValue<HomeState>>(
+    StateNotifierProvider.autoDispose<HomeViewModel, AsyncValue<RepoState>>(
   (ref) => HomeViewModel(ref: ref),
 );
 
-class HomeViewModel extends StateNotifier<AsyncValue<HomeState>> {
+class HomeViewModel extends StateNotifier<AsyncValue<RepoState>> {
   final AutoDisposeStateNotifierProviderRef _ref;
   HomeViewModel({required AutoDisposeStateNotifierProviderRef ref})
       : _ref = ref,
@@ -21,7 +23,7 @@ class HomeViewModel extends StateNotifier<AsyncValue<HomeState>> {
   // 初期化
   void load() {
     state = const AsyncValue.data(
-      HomeState(),
+      RepoState(),
     );
   }
 
@@ -31,10 +33,10 @@ class HomeViewModel extends StateNotifier<AsyncValue<HomeState>> {
 
     // if (status.isGranted) {
     if (getDir == null) {
-      state = AsyncValue.data(HomeState(initMsg: ""));
+      state = AsyncValue.data(RepoState(initMsg: ""));
     } else {
       state =
-          AsyncValue.data(HomeState(initMsg: await api.gitInit(dir: getDir)));
+          AsyncValue.data(RepoState(initMsg: await api.gitInit(dir: getDir)));
     }
   }
 
@@ -45,10 +47,10 @@ class HomeViewModel extends StateNotifier<AsyncValue<HomeState>> {
     // if (status.isGranted) {
     if (pickedDir == null) {
       state =
-          AsyncValue.data(HomeState(repoCloneMsg: "Failed to open directory."));
+          AsyncValue.data(RepoState(repoCloneMsg: "Failed to open directory."));
     } else {
       state = AsyncValue.data(
-          HomeState(repoCloneMsg: await api.gitOpen(dir: pickedDir)));
+          RepoState(repoCloneMsg: await api.gitOpen(dir: pickedDir)));
     }
   }
 
@@ -58,15 +60,15 @@ class HomeViewModel extends StateNotifier<AsyncValue<HomeState>> {
 
     if (pickedDir == null) {
       state =
-          AsyncValue.data(HomeState(repoOpenMsg: "Failed to open directory."));
+          AsyncValue.data(RepoState(repoOpenMsg: "Failed to open directory."));
     } else {
-      state = AsyncValue.data(HomeState(
+      state = AsyncValue.data(RepoState(
           repoOpenMsg: await api.gitHttpsClone(
               dir: pickedDir, url: state.value!.cloneUrl)));
     }
   }
 
   void setCloneUrl(String url) {
-    state = AsyncValue.data(HomeState(cloneUrl: url));
+    state = AsyncValue.data(RepoState(cloneUrl: url));
   }
 }

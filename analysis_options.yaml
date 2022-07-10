@@ -11,7 +11,12 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-    exclude: [build/**, lib/bridge_generated.dart, lib/ffi.dart]
+    # exclude: [build/**, lib/bridge_generated.dart, lib/ffi.dart, **.freezed.dart]
+    exclude:
+        - "build/**"
+        - "lib/bridge_generated.dart"
+        - "lib/ffi.dart"
+        - "**/*.freezed.dart"
     language:
         strict-inference: true
         strict-casts: true
