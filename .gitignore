@@ -52,3 +52,5 @@ app.*.map.json
 *.so
 *.a
 /curl*
+/lib/bridge_generated
+/libgit2-bindings/src/bridge_generated
