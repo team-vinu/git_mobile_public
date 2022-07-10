@@ -18,6 +18,22 @@ use flutter_rust_bridge::*;
 // Section: wire functions
 
 #[no_mangle]
+pub extern "C" fn wire_ssh_keygen(port_: i64, passwd: *mut wire_uint_8_list, algorithm: i32) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "ssh_keygen",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_passwd = passwd.wire2api();
+            let api_algorithm = algorithm.wire2api();
+            move |task_callback| Ok(ssh_keygen(api_passwd, api_algorithm))
+        },
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn wire_git_https_clone(
     port_: i64,
     dir: *mut wire_uint_8_list,
@@ -201,6 +217,17 @@ impl Wire2Api<String> for *mut wire_uint_8_list {
     }
 }
 
+impl Wire2Api<Algorithm> for i32 {
+    fn wire2api(self) -> Algorithm {
+        match self {
+            0 => Algorithm::Rsa,
+            1 => Algorithm::Dsa,
+            2 => Algorithm::Ed25519,
+            _ => unreachable!("Invalid variant for Algorithm: {}", self),
+        }
+    }
+}
+
 impl Wire2Api<u8> for u8 {
     fn wire2api(self) -> u8 {
         self
@@ -229,6 +256,13 @@ impl<T> NewWithNullPtr for *mut T {
 }
 
 // Section: impl IntoDart
+
+impl support::IntoDart for KeyPair {
+    fn into_dart(self) -> support::DartCObject {
+        vec![self.pubkey.into_dart(), self.privkey.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for KeyPair {}
 
 impl support::IntoDart for Platform {
     fn into_dart(self) -> support::DartCObject {

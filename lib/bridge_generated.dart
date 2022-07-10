@@ -12,6 +12,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Libgit2Bindings {
+  Future<KeyPair?> sshKeygen(
+      {String? passwd, required Algorithm algorithm, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSshKeygenConstMeta;
+
   Future<String> gitHttpsClone(
       {required String dir, required String url, dynamic hint});
 
@@ -49,6 +54,22 @@ abstract class Libgit2Bindings {
   FlutterRustBridgeTaskConstMeta get kRustReleaseModeConstMeta;
 }
 
+enum Algorithm {
+  Rsa,
+  Dsa,
+  Ed25519,
+}
+
+class KeyPair {
+  final Uint8List pubkey;
+  final Uint8List privkey;
+
+  KeyPair({
+    required this.pubkey,
+    required this.privkey,
+  });
+}
+
 enum Platform {
   Unknown,
   Android,
@@ -62,6 +83,23 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
       Libgit2BindingsImpl.raw(Libgit2BindingsWire(dylib));
 
   Libgit2BindingsImpl.raw(Libgit2BindingsWire inner) : super(inner);
+
+  Future<KeyPair?> sshKeygen(
+          {String? passwd, required Algorithm algorithm, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_ssh_keygen(port_,
+            _api2wire_opt_String(passwd), _api2wire_algorithm(algorithm)),
+        parseSuccessData: _wire2api_opt_box_autoadd_key_pair,
+        constMeta: kSshKeygenConstMeta,
+        argValues: [passwd, algorithm],
+        hint: hint,
+      ));
+
+  FlutterRustBridgeTaskConstMeta get kSshKeygenConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "ssh_keygen",
+        argNames: ["passwd", "algorithm"],
+      );
 
   Future<String> gitHttpsClone(
           {required String dir, required String url, dynamic hint}) =>
@@ -196,6 +234,14 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
     return _api2wire_uint_8_list(utf8.encoder.convert(raw));
   }
 
+  int _api2wire_algorithm(Algorithm raw) {
+    return raw.index;
+  }
+
+  ffi.Pointer<wire_uint_8_list> _api2wire_opt_String(String? raw) {
+    return raw == null ? ffi.nullptr : _api2wire_String(raw);
+  }
+
   int _api2wire_u8(int raw) {
     return raw;
   }
@@ -217,6 +263,24 @@ String _wire2api_String(dynamic raw) {
 
 bool _wire2api_bool(dynamic raw) {
   return raw as bool;
+}
+
+KeyPair _wire2api_box_autoadd_key_pair(dynamic raw) {
+  return _wire2api_key_pair(raw);
+}
+
+KeyPair _wire2api_key_pair(dynamic raw) {
+  final arr = raw as List<dynamic>;
+  if (arr.length != 2)
+    throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+  return KeyPair(
+    pubkey: _wire2api_uint_8_list(arr[0]),
+    privkey: _wire2api_uint_8_list(arr[1]),
+  );
+}
+
+KeyPair? _wire2api_opt_box_autoadd_key_pair(dynamic raw) {
+  return raw == null ? null : _wire2api_box_autoadd_key_pair(raw);
 }
 
 Platform _wire2api_platform(dynamic raw) {
@@ -252,6 +316,25 @@ class Libgit2BindingsWire implements FlutterRustBridgeWireBase {
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
+
+  void wire_ssh_keygen(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> passwd,
+    int algorithm,
+  ) {
+    return _wire_ssh_keygen(
+      port_,
+      passwd,
+      algorithm,
+    );
+  }
+
+  late final _wire_ssh_keygenPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Int32)>>('wire_ssh_keygen');
+  late final _wire_ssh_keygen = _wire_ssh_keygenPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, int)>();
 
   void wire_git_https_clone(
     int port_,

@@ -1,25 +1,17 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
-import '../ffi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_gen/gen_l10n/l10n.dart';
-import '../gen/assets.gen.dart';
+import 'package:git_mobile/gen/assets.gen.dart';
+import 'package:git_mobile/ffi.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   String _initMsg = "";
   String _repoOpenMsg = "";
   String _repoCloneMsg = "";
@@ -79,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Git Mobile"),
       ),
       body: Center(
         child: Column(
