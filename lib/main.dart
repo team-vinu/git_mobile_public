@@ -6,14 +6,5 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'app.dart';
 
 void main() {
-  () => runApp(
-        ProviderScope(
-          child: DevicePreview(
-            enabled: !kReleaseMode,
-            builder: (context) {
-              return const MyApp();
-            },
-          ),
-        ),
-      );
+  runApp(const ProviderScope(child: MyApp()));
 }
