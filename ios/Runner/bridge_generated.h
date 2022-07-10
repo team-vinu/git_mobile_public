@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-======= typedef struct WireSyncReturnStruct
+typedef struct WireSyncReturnStruct
 {
   uint8_t *ptr;
   int32_t len;
