@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'home_state.dart';
+part of 'repo_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,21 +15,21 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$HomeState {
+mixin _$RepoState {
   String get initMsg => throw _privateConstructorUsedError;
   String get repoOpenMsg => throw _privateConstructorUsedError;
   String get repoCloneMsg => throw _privateConstructorUsedError;
   String get cloneUrl => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $HomeStateCopyWith<HomeState> get copyWith =>
+  $RepoStateCopyWith<RepoState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HomeStateCopyWith<$Res> {
-  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
-      _$HomeStateCopyWithImpl<$Res>;
+abstract class $RepoStateCopyWith<$Res> {
+  factory $RepoStateCopyWith(RepoState value, $Res Function(RepoState) then) =
+      _$RepoStateCopyWithImpl<$Res>;
   $Res call(
       {String initMsg,
       String repoOpenMsg,
@@ -38,12 +38,12 @@ abstract class $HomeStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
-  _$HomeStateCopyWithImpl(this._value, this._then);
+class _$RepoStateCopyWithImpl<$Res> implements $RepoStateCopyWith<$Res> {
+  _$RepoStateCopyWithImpl(this._value, this._then);
 
-  final HomeState _value;
+  final RepoState _value;
   // ignore: unused_field
-  final $Res Function(HomeState) _then;
+  final $Res Function(RepoState) _then;
 
   @override
   $Res call({
@@ -74,10 +74,10 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
-  factory _$$_HomeStateCopyWith(
-          _$_HomeState value, $Res Function(_$_HomeState) then) =
-      __$$_HomeStateCopyWithImpl<$Res>;
+abstract class _$$_RepoStateCopyWith<$Res> implements $RepoStateCopyWith<$Res> {
+  factory _$$_RepoStateCopyWith(
+          _$_RepoState value, $Res Function(_$_RepoState) then) =
+      __$$_RepoStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {String initMsg,
@@ -87,14 +87,14 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
-    implements _$$_HomeStateCopyWith<$Res> {
-  __$$_HomeStateCopyWithImpl(
-      _$_HomeState _value, $Res Function(_$_HomeState) _then)
-      : super(_value, (v) => _then(v as _$_HomeState));
+class __$$_RepoStateCopyWithImpl<$Res> extends _$RepoStateCopyWithImpl<$Res>
+    implements _$$_RepoStateCopyWith<$Res> {
+  __$$_RepoStateCopyWithImpl(
+      _$_RepoState _value, $Res Function(_$_RepoState) _then)
+      : super(_value, (v) => _then(v as _$_RepoState));
 
   @override
-  _$_HomeState get _value => super._value as _$_HomeState;
+  _$_RepoState get _value => super._value as _$_RepoState;
 
   @override
   $Res call({
@@ -103,7 +103,7 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
     Object? repoCloneMsg = freezed,
     Object? cloneUrl = freezed,
   }) {
-    return _then(_$_HomeState(
+    return _then(_$_RepoState(
       initMsg: initMsg == freezed
           ? _value.initMsg
           : initMsg // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HomeState implements _HomeState {
-  const _$_HomeState(
+class _$_RepoState implements _RepoState {
+  const _$_RepoState(
       {this.initMsg = "",
       this.repoOpenMsg = "",
       this.repoCloneMsg = "",
@@ -148,14 +148,14 @@ class _$_HomeState implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(initMsg: $initMsg, repoOpenMsg: $repoOpenMsg, repoCloneMsg: $repoCloneMsg, cloneUrl: $cloneUrl)';
+    return 'RepoState(initMsg: $initMsg, repoOpenMsg: $repoOpenMsg, repoCloneMsg: $repoCloneMsg, cloneUrl: $cloneUrl)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomeState &&
+            other is _$_RepoState &&
             const DeepCollectionEquality().equals(other.initMsg, initMsg) &&
             const DeepCollectionEquality()
                 .equals(other.repoOpenMsg, repoOpenMsg) &&
@@ -174,16 +174,16 @@ class _$_HomeState implements _HomeState {
 
   @JsonKey(ignore: true)
   @override
-  _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>
-      __$$_HomeStateCopyWithImpl<_$_HomeState>(this, _$identity);
+  _$$_RepoStateCopyWith<_$_RepoState> get copyWith =>
+      __$$_RepoStateCopyWithImpl<_$_RepoState>(this, _$identity);
 }
 
-abstract class _HomeState implements HomeState {
-  const factory _HomeState(
+abstract class _RepoState implements RepoState {
+  const factory _RepoState(
       {final String initMsg,
       final String repoOpenMsg,
       final String repoCloneMsg,
-      final String cloneUrl}) = _$_HomeState;
+      final String cloneUrl}) = _$_RepoState;
 
   @override
   String get initMsg;
@@ -195,6 +195,6 @@ abstract class _HomeState implements HomeState {
   String get cloneUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>
+  _$$_RepoStateCopyWith<_$_RepoState> get copyWith =>
       throw _privateConstructorUsedError;
 }
