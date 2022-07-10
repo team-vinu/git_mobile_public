@@ -14,8 +14,10 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Libgit2Bindings {
-  Future<KeyPair?> sshKeygen(
-      {String? passwd, required Algorithm algorithm, dynamic hint});
+  Future<fp.Option<KeyPair>> sshKeygen(
+      {required fp.Option<String> passwd,
+      required Algorithm algorithm,
+      dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSshKeygenConstMeta;
 
@@ -86,8 +88,10 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
 
   Libgit2BindingsImpl.raw(Libgit2BindingsWire inner) : super(inner);
 
-  Future<KeyPair?> sshKeygen(
-          {String? passwd, required Algorithm algorithm, dynamic hint}) =>
+  Future<fp.Option<KeyPair>> sshKeygen(
+          {required fp.Option<String> passwd,
+          required Algorithm algorithm,
+          dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_ssh_keygen(port_,
             _api2wire_opt_String(passwd), _api2wire_algorithm(algorithm)),
@@ -237,11 +241,18 @@ class Libgit2BindingsImpl extends FlutterRustBridgeBase<Libgit2BindingsWire>
   }
 
   int _api2wire_algorithm(Algorithm raw) {
-    return raw.index;
+    return _api2wire_i32(raw.index);
   }
 
-  ffi.Pointer<wire_uint_8_list> _api2wire_opt_String(String? raw) {
-    return raw == null ? ffi.nullptr : _api2wire_String(raw);
+  int _api2wire_i32(int raw) {
+    return raw;
+  }
+
+  ffi.Pointer<wire_uint_8_list> _api2wire_opt_String(fp.Option<String> raw) {
+    return raw.match(
+      (r) => _api2wire_String(r),
+      () => ffi.nullptr,
+    );
   }
 
   int _api2wire_u8(int raw) {
@@ -271,6 +282,10 @@ KeyPair _wire2api_box_autoadd_key_pair(dynamic raw) {
   return _wire2api_key_pair(raw);
 }
 
+int _wire2api_i32(dynamic raw) {
+  return raw as int;
+}
+
 KeyPair _wire2api_key_pair(dynamic raw) {
   final arr = raw as List<dynamic>;
   if (arr.length != 2)
@@ -281,8 +296,8 @@ KeyPair _wire2api_key_pair(dynamic raw) {
   );
 }
 
-KeyPair? _wire2api_opt_box_autoadd_key_pair(dynamic raw) {
-  return raw == null ? null : _wire2api_box_autoadd_key_pair(raw);
+fp.Option<KeyPair> _wire2api_opt_box_autoadd_key_pair(dynamic raw) {
+  return raw == null ? fp.none() : fp.some(_wire2api_box_autoadd_key_pair(raw));
 }
 
 Platform _wire2api_platform(dynamic raw) {
