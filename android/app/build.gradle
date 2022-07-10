@@ -102,12 +102,13 @@ dependencies {
         // && cd .. && \
         // x86_64-linux-android-ld -shared -lssl -lcrypto -L./openssl/x86_64_android/lib/ android/app/src/main/jniLibs/x86_64/liblibgit2_bindings.so -o android/app/src/main/jniLibs/x86_64/liblibgit2_bindings.so&& \
         // i686-linux-android-ld -shared -lssl -lcrypto -L./openssl/i686-android/lib/ android/app/src/main/jniLibs/x86/liblibgit2_bindings.so -o android/app/src/main/jniLibs/x86/liblibgit2_bindings.so
-        commandLine 'sh', '-c', """cd ../../libgit2-bindings && \
-        ANDROID_NDK_HOME="$ANDROID_NDK" cargo ndk \
-         -t x86 -t x86_64 \
-         -o ../android/app/src/main/jniLibs build $profileMode"""
+        // cargo xtask --target i686-linux-android --profile $profileMode; \
+        // cargo xtask --target x86_64-linux-android --profile $profileMode; \
+        commandLine 'sh', '-c', """cd ../../ && \
+        ANDROID_NDK_HOME="$ANDROID_NDK" cargo ndk -t x86 -t x86_64 \
+        --no-strip -o android/app/src/main/jniLibs build --package=libgit2-bindings $profileMode
+        """
         /*commandLine 'sh', '-c', """cd ../../libgit2-bindings && \
-           cargo build $profileMode --target=i686-linux-android && \
            mkdir -p ../android/app/src/main/jniLibs/x86 && \
            cp ../target/i686-linux-android/debug/*.a ../android/app/src/main/jniLibs/x86
            """
