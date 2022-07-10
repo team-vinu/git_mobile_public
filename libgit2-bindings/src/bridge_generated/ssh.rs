@@ -94,6 +94,12 @@ impl Wire2Api<Algorithm> for i32 {
     }
 }
 
+impl Wire2Api<i32> for i32 {
+    fn wire2api(self) -> i32 {
+        self
+    }
+}
+
 impl Wire2Api<u8> for u8 {
     fn wire2api(self) -> u8 {
         self

@@ -1,2 +1,2 @@
 [workspace]
-members = [ "libgit2-bindings" ]
+members = [ "libgit2-bindings", "xtask" ]
