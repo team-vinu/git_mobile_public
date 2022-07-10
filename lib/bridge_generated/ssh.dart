@@ -5,15 +5,17 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:fpdart/fpdart.dart' as fp;
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:fpdart/fpdart.dart' as fp;
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class ApiSsh {
-  Future<KeyPair?> sshKeygen(
-      {String? passwd, required Algorithm algorithm, dynamic hint});
+  Future<fp.Option<KeyPair>> sshKeygen(
+      {fp.Option<String> passwd, required Algorithm algorithm, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSshKeygenConstMeta;
 }
@@ -40,8 +42,10 @@ class ApiSshImpl extends FlutterRustBridgeBase<ApiSshWire> implements ApiSsh {
 
   ApiSshImpl.raw(ApiSshWire inner) : super(inner);
 
-  Future<KeyPair?> sshKeygen(
-          {String? passwd, required Algorithm algorithm, dynamic hint}) =>
+  Future<fp.Option<KeyPair>> sshKeygen(
+          {fp.Option<String> passwd,
+          required Algorithm algorithm,
+          dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_ssh_keygen(port_,
             _api2wire_opt_String(passwd), _api2wire_algorithm(algorithm)),
@@ -63,10 +67,14 @@ class ApiSshImpl extends FlutterRustBridgeBase<ApiSshWire> implements ApiSsh {
   }
 
   int _api2wire_algorithm(Algorithm raw) {
-    return raw.index;
+    return _api2wire_i32(raw.index);
   }
 
-  ffi.Pointer<wire_uint_8_list> _api2wire_opt_String(String? raw) {
+  int _api2wire_i32(int raw) {
+    return raw;
+  }
+
+  ffi.Pointer<wire_uint_8_list> _api2wire_opt_String(fp.Option<String> raw) {
     return raw == null ? ffi.nullptr : _api2wire_String(raw);
   }
 
@@ -99,8 +107,8 @@ KeyPair _wire2api_key_pair(dynamic raw) {
   );
 }
 
-KeyPair? _wire2api_opt_box_autoadd_key_pair(dynamic raw) {
-  return raw == null ? null : _wire2api_box_autoadd_key_pair(raw);
+fp.Option<KeyPair> _wire2api_opt_box_autoadd_key_pair(dynamic raw) {
+  return raw == null ? fp.none() : _wire2api_box_autoadd_key_pair(raw);
 }
 
 int _wire2api_u8(dynamic raw) {

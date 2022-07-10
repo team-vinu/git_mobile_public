@@ -5,9 +5,11 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:fpdart/fpdart.dart' as fp;
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:fpdart/fpdart.dart' as fp;
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
@@ -74,6 +76,10 @@ class ApiPlatformImpl extends FlutterRustBridgeBase<ApiPlatformWire>
 // Section: wire2api
 bool _wire2api_bool(dynamic raw) {
   return raw as bool;
+}
+
+int _wire2api_i32(dynamic raw) {
+  return raw as int;
 }
 
 Platform _wire2api_platform(dynamic raw) {

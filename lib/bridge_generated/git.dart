@@ -5,9 +5,11 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:fpdart/fpdart.dart' as fp;
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:fpdart/fpdart.dart' as fp;
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
