@@ -11,7 +11,7 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-  exclude: [build/**, lib/bridge_generated/**]
+  exclude: [build/**, lib/bridge_generated/**, ffi.dart]
   language:
     strict-inference: true
     strict-casts: true
