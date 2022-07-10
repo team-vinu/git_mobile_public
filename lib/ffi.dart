@@ -3,7 +3,9 @@
 
 import 'dart:ffi';
 
-import 'bridge_generated.dart';
+import 'package:git_mobile/bridge_generated/api.dart' as api_gen;
+import 'package:git_mobile/bridge_generated/git.dart' as git_gen;
+import 'package:git_mobile/bridge_generated/ssh.dart' as ssh_gen;
 // Re-export the bridge so it is only necessary to import this file.
 import 'dart:io' as io;
 
@@ -15,5 +17,11 @@ final _dylib = io.Platform.isWindows ? '$_base.dll' : 'lib$_base.so';
 
 // The late modifier delays initializing the value until it is actually needed,
 // leaving precious little time for the program to quickly start up.
-late final Libgit2Bindings api = Libgit2BindingsImpl(
+late final api_gen.ApiPlatform api = api_gen.ApiPlatformImpl(
+    io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
+
+late final git_gen.ApiGit git = git_gen.ApiGitImpl(
+    io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
+
+late final ssh_gen.ApiSsh ssh = ssh_gen.ApiSshImpl(
     io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
