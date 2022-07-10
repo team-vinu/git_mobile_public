@@ -5,6 +5,9 @@ part 'home_state.freezed.dart';
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
-    @Default(0) int count,
+    @Default("") String initMsg,
+    @Default("") String repoOpenMsg,
+    @Default("") String repoCloneMsg,
+    @Default("") String cloneUrl,
   }) = _HomeState;
 }
