@@ -10,12 +10,14 @@ default: gen lint
 
 gen:
     export REPO_DIR="$PWD"; cd /; flutter_rust_bridge_codegen {{llvm_path}} \
-        --rust-input "$REPO_DIR/libgit2-bindings/src/api.rs" \
-        --dart-output "$REPO_DIR/lib/bridge_generated.dart" \
+        --rust-input "$REPO_DIR/libgit2-bindings/src/api.rs" "$REPO_DIR/libgit2-bindings/src/git.rs" "$REPO_DIR/libgit2-bindings/src/ssh.rs" \
+        --dart-output "$REPO_DIR/lib/bridge_generated/api.dart" "$REPO_DIR/lib/bridge_generated/git.dart" "$REPO_DIR/lib/bridge_generated/ssh.dart" \
+        --class-name ApiPlatform ApiGit ApiSsh \
+        --rust-output "$REPO_DIR/libgit2-bindings/src/bridge_generated/api.rs" "$REPO_DIR/libgit2-bindings/src/bridge_generated/git.rs" "$REPO_DIR/libgit2-bindings/src/bridge_generated/ssh.rs" \
         --c-output "$REPO_DIR/ios/Runner/bridge_generated.h" \
-        # --c-output "$REPO_DIR/macos/Runner/bridge_generated.h"
+        --skip-add-mod-to-lib
     # Uncomment this line to invoke build_runner as well
-    fvm flutter pub run build_runner build
+    fvm flutter pub run build_runner build --delete-conflicting-outputs
 
 device := "hoge"
 

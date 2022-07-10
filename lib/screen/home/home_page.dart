@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     if (getDir == null) {
       dirState = "";
     } else {
-      dirState = await api.gitInit(dir: getDir);
+      dirState = await git.gitInit(dir: getDir);
     }
     setState(() {
       _initMsg = dirState;
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     if (pickedDir == null) {
       msg = "Failed to open directory.";
     } else {
-      msg = await api.gitOpen(dir: pickedDir);
+      msg = await git.gitOpen(dir: pickedDir);
     }
     setState(() {
       _repoCloneMsg = msg;
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     if (pickedDir == null) {
       msg = "Failed to open directory.";
     } else {
-      msg = await api.gitHttpsClone(dir: pickedDir, url: _cloneUrl);
+      msg = await git.gitHttpsClone(dir: pickedDir, url: _cloneUrl);
     }
     setState(() {
       _repoOpenMsg = msg;
