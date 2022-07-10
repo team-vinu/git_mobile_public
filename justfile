@@ -23,7 +23,7 @@ _init:
     #!/usr/bin/env bash
     set -euxo pipefail
     export GENERATED="$PWD/libgit2-bindings/src/bridge_generated"
-    if [ ! -e "$GENERATED/api.rs" -a -e "$GENERATED/git.rs" -a -e "$GENERATED/ssh.rs" ]; then
+    if [ ! -e "$GENERATED/api.rs" -a ! -e "$GENERATED/git.rs" -a ! -e "$GENERATED/ssh.rs" ]; then
         touch "$GENERATED/api.rs" "$GENERATED/git.rs" "$GENERATED/ssh.rs"
     fi
 
