@@ -1,2 +1,5 @@
 [build]
 rustflags = ["--print=native-static-libs"]
+
+[alias]
+xtask = "run --package xtask --"
