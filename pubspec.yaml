@@ -45,7 +45,8 @@ dependencies:
     hooks_riverpod: ^2.0.0-dev.9
     flutter_hooks: ^0.18.5+1
     json_serializable: ^6.3.1
-    fpdart: ^0.1.0
+    fpdart:
+        git: https://github.com/anosatsuk124/fpdart.git
 
 dev_dependencies:
     flutter_test:
