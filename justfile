@@ -29,6 +29,15 @@ _init:
 
 device := "hoge"
 
+_init:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    export GENERATED="$PWD/libgit2-bindings/src/bridge_generated"
+    if [ ! -e "$GENERATED/api.rs" -a ! -e "$GENERATED/git.rs" -a ! -e "$GENERATED/ssh.rs" ]; then
+        touch "$GENERATED/api.rs" "$GENERATED/git.rs" "$GENERATED/ssh.rs"
+    fi
+
+
 run:
     export AARCH64_APPLE_IOS_SIM_OPENSSL_DIR="$PWD/openssl/aarch64_ios"; \
     export AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR="${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include"; \
