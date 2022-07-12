@@ -37,7 +37,7 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
     codegen.arg("--rust-output");
     codegen.args(&rust_outputs);
     codegen.arg("--class-name");
-    codegen.args(["ApiPlatform", "ApiGit", "ApigSsh"]);
+    codegen.args(["ApiPlatform", "ApiGit", "ApiSsh"]);
     codegen.arg("--c-output");
     codegen.arg(format!("{}/ios/Runner/bridge_generated.h", &pwd));
     codegen.arg("--skip-add-mod-to-lib");
