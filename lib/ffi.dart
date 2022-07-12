@@ -28,11 +28,19 @@ late final ssh_gen.ApiSsh ssh = ssh_gen.ApiSshImpl(
     io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
 
 extension FpdartRepoResult<E> on git_gen.RepoResult {
-  C match<C>(C Function() onOk, C Function(git_gen.RepoResult err) onError) {
+  C match<C>(C Function() onOk, C Function(String err) onError) {
     if (this == git_gen.RepoResult.ok()) {
       return onOk();
     } else {
-      return onError(this);
+      final result = this;
+      return onError(result.map(
+        ok: (_ok) {
+          return ""; // this value won't be assigned to onError.
+        },
+        err: (err) {
+          return err.field0;
+        },
+      ));
     }
   }
 }
