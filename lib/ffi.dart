@@ -29,18 +29,12 @@ late final ssh_gen.ApiSsh ssh = ssh_gen.ApiSshImpl(
 
 extension FpdartRepoResult<E> on git_gen.RepoResult {
   C match<C>(C Function() onOk, C Function(String err) onError) {
-    if (this == git_gen.RepoResult.ok()) {
+    final result = this;
+
+    return result.map(ok: (ok) {
       return onOk();
-    } else {
-      final result = this;
-      return onError(result.map(
-        ok: (_ok) {
-          return ""; // this value won't be assigned to onError.
-        },
-        err: (err) {
-          return err.field0;
-        },
-      ));
-    }
+    }, err: (err) {
+      return onError(err.field0);
+    });
   }
 }
