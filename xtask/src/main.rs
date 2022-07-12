@@ -55,25 +55,28 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
     codegen.spawn().expect("failed to gen").wait().unwrap();
 }
 
-fn flutter_run(device: Option<&String>) {
+fn flutter_run(device: Option<&String>, pwd: &String) {
     #[allow(non_snake_case)]
-    let AARCH64_APPLE_IOS_SIM_OPENSSL_DIR = "$PWD/openssl/aarch64_ios";
+    let AARCH64_APPLE_IOS_SIM_OPENSSL_DIR = format!("{pwd}/openssl/aarch64_ios");
     #[allow(non_snake_case)]
-    let AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR = "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include";
+    let AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR =
+        format!("{AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include");
     #[allow(non_snake_case)]
-    let AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR = "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib";
+    let AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR = format!("{AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib");
     #[allow(non_snake_case)]
-    let X86_64_LINUX_ANDROID_OPENSSL_DIR = "$PWD/openssl/x86_64_android";
+    let X86_64_LINUX_ANDROID_OPENSSL_DIR = format!("{pwd}/openssl/x86_64_android");
     #[allow(non_snake_case)]
-    let X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR = "$X86_64_LINUX_ANDROID_OPENSSL_DIR/include";
+    let X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR =
+        format!("{X86_64_LINUX_ANDROID_OPENSSL_DIR}/include");
     #[allow(non_snake_case)]
-    let X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR = "$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib";
+    let X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR = format!("{X86_64_LINUX_ANDROID_OPENSSL_DIR}/lib");
     #[allow(non_snake_case)]
-    let I686_LINUX_ANDROID_OPENSSL_DIR = "$PWD/openssl/i686-android";
+    let I686_LINUX_ANDROID_OPENSSL_DIR = format!("{pwd}/openssl/i686-android");
     #[allow(non_snake_case)]
-    let I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR = "$I686_LINUX_ANDROID_OPENSSL_DIR/include";
+    let I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR =
+        format!("{I686_LINUX_ANDROID_OPENSSL_DIR}/include");
     #[allow(non_snake_case)]
-    let I686_LINUX_ANDROID_OPENSSL_LIB_DIR = "$I686_LINUX_ANDROID_OPENSSL_DIR/lib";
+    let I686_LINUX_ANDROID_OPENSSL_LIB_DIR = format!("{I686_LINUX_ANDROID_OPENSSL_DIR}/lib");
     env::set_var(
         "AARCH64_APPLE_IOS_SIM_OPENSSL_DIR",
         AARCH64_APPLE_IOS_SIM_OPENSSL_DIR,
@@ -150,7 +153,7 @@ fn main() {
             code_gen(&pwd, args.get(2));
         }
         "flutter" => {
-            flutter_run(args.get(2));
+            flutter_run(args.get(2), &pwd);
         }
         &_ => panic!("Unexpected arguments!"),
     }

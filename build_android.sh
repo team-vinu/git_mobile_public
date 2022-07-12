@@ -1,7 +1,6 @@
 #! /usr/bin/env bash
 
 DIR="./openssl-1.1.1p"
-DIR_CURL="./curl-7.84.0"
 
 export ANDROID_NDK_HOME="${ANDROID_SDK_ROOT}/ndk/21.0.6113669"
 export NDK_TOOLCHAIN_ROOT="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
@@ -11,10 +10,9 @@ if [ ! -d $DIR ]; then
     tar xvf "${DIR}.tar.gz"
     rm "${DIR}.tar.gz"
 fi 
-if [ ! -d $DIR_CURL ]; then
-    wget https://github.com/curl/curl/releases/download/curl-7_84_0/curl-7.84.0.tar.gz
-    tar xvf "${DIR_CURL}.tar.gz"
-    rm "${DIR_CURL}.tar.gz"
+
+if [ ! -d "$(pwd)/openssl"]; then
+    mkdir openssl
 fi
 
 function emulatorx86() {
@@ -23,18 +21,19 @@ function emulatorx86() {
 
     rustup target add i686-linux-android 
 
-    OUTPUT_CURL_DIR="$(pwd)/${DIR_CURL}/i686-android"
-    if [ ! -d $OUTPUT_CURL_DIR ]; then
-        cd "${DIR_CURL}"
-        ARCH="linux-android" \
+    OUTPUT_DIR="$(pwd)/${DIR}/i686-android"
+    if [ ! -d $OUTPUT_DIR ]; then
+        cd "${DIR}"
+        ARCH="android-x86" \
         CC="${NDK_TOOLCHAIN_ROOT}/bin/i686-linux-android${ANDROID_API}-clang" \
         CXX="${NDK_TOOLCHAIN_ROOT}/bin/i686-linux-android${ANDROID_API}-clang++" \
         CFLAGS="-m32" \
         ./config \
             ${ARCH} \
             ${CFLAGS} \
-            --prefix=${OUTPUT_CURL_DIR} \
-            --with-zlib=${ndk_toolchain_root}/sysroot/usr/lib \
+            --prefix=${OUTPUT_DIR} \
+            --with-zlib-include=${ndk_toolchain_root}/sysroot/usr/include \
+            --with-zlib-lib=${ndk_toolchain_root}/sysroot/usr/lib \
             zlib no-asm no-shared no-unit-test
         
         make
@@ -45,34 +44,8 @@ function emulatorx86() {
         :
     fi
 
-    OUTPUT_CURL_DIR="$(pwd)/${DIR_CURL}/i686-android"
-    if [ ! -d $OUTPUT_CURL_DIR ]; then
-        cd "${DIR_CURL}"
-        ARCH="i686-linux-android" \
-        CC="${NDK_TOOLCHAIN_ROOT}/bin/i686-linux-android${ANDROID_API}-clang" \
-        CPP="${NDK_TOOLCHAIN_ROOT}/bin/i686-linux-android${ANDROID_API}-clang++" \
-        CPPFLAGS="-I${OUTPUT_DIR}/lib"
-        CFLAGS="-m32" \
-        ./configure \
-            --host ${ARCH} \
-            --with-openssl \
-            --prefix=${OUTPUT_CURL_DIR} \
-            --with-zlib=${ndk_toolchain_root}/sysroot/usr/lib \
-            --disable-shared \
-            CFLAGS=${CFLAGS} \
-            #zlib no-asm -shared no-unit-test
-        
-        make
-        make install
-
-        cd ..
-    else
-        :
-    fi
-
     mv "${OUTPUT_DIR}" ./openssl
-    mv "${OUTPUT_CURL_DIR}" ./curl
-    rm -r "${DIR}" "${DIR_CURL}"
+    rm -r "${DIR}"
 
     # X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" X86_64_LINUX_ANDROID_OPENSSL_DIR="${OUTPUT_DIR}" cargo build --release --target=x86_64-linux-android
 }
@@ -105,34 +78,8 @@ function emulator() {
         :
     fi
 
-    OUTPUT_CURL_DIR="$(pwd)/${DIR_CURL}/x86_64-android"
-    if [ ! -d $OUTPUT_CURL_DIR ]; then
-        cd "${DIR_CURL}"
-        ARCH="x86_64-linux-android" \
-        CC="${NDK_TOOLCHAIN_ROOT}/bin/x86_64-linux-android${ANDROID_API}-clang" \
-        CPP="${NDK_TOOLCHAIN_ROOT}/bin/x86_64-linux-android${ANDROID_API}-clang++" \
-        CPPFLAGS="-I${OUTPUT_DIR}/lib"
-        CFLAGS="" \
-        ./configure \
-            --host ${ARCH} \
-            --with-openssl \
-            --prefix=${OUTPUT_CURL_DIR} \
-            --with-zlib=${ndk_toolchain_root}/sysroot/usr/lib \
-            --disable-shared \
-            ${CFLAGS} \
-            #zlib no-asm -shared no-unit-test
-        
-        make
-        make install
-
-        cd ..
-    else
-        :
-    fi
-
     mv "${OUTPUT_DIR}" ./openssl
-    mv "${OUTPUT_CURL_DIR}" ./curl
-    rm -r "${DIR}" "${DIR_CURL}"
+    rm -r "${DIR}"
 
     # X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR="${OUTPUT_DIR}/lib" X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR="${OUTPUT_DIR}/include" X86_64_LINUX_ANDROID_OPENSSL_DIR="${OUTPUT_DIR}" cargo build --release --target=x86_64-linux-android
 }
