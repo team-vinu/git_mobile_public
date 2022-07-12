@@ -1,11 +1,17 @@
 use thiserror::Error;
 
+#[repr(C)]
 #[derive(Debug, Error)]
 pub enum RepoError {
     #[error("Git Error: {:?}", 0)]
     GitError(git2::Error),
     #[error("IO Error: {:?}", 0)]
     IOError(std::io::Error),
+}
+
+pub enum RepoResult {
+    Ok,
+    Err(String),
 }
 
 impl From<std::io::Error> for RepoError {

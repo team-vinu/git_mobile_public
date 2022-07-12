@@ -6,6 +6,7 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
     let mut codegen = Command::new("flutter_rust_bridge_codegen");
     let rust_output_dir = format!("{}/libgit2-bindings/src/bridge_generated", &pwd);
     let rust_outputs = [
+        format!("{}/error.rs", &rust_output_dir),
         format!("{}/api.rs", &rust_output_dir),
         format!("{}/git.rs", &rust_output_dir),
         format!("{}/ssh.rs", &rust_output_dir),
@@ -24,12 +25,14 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
 
     codegen.arg("--rust-input");
     codegen.args([
+        format!("{}/libgit2-bindings/src/error.rs", &pwd),
         format!("{}/libgit2-bindings/src/api.rs", &pwd),
         format!("{}/libgit2-bindings/src/git.rs", &pwd),
         format!("{}/libgit2-bindings/src/ssh.rs", &pwd),
     ]);
     codegen.arg("--dart-output");
     codegen.args([
+        format!("{}/lib/bridge_generated/error.dart", &pwd),
         format!("{}/lib/bridge_generated/api.dart", &pwd),
         format!("{}/lib/bridge_generated/git.dart", &pwd),
         format!("{}/lib/bridge_generated/ssh.dart", &pwd),
@@ -37,7 +40,7 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
     codegen.arg("--rust-output");
     codegen.args(&rust_outputs);
     codegen.arg("--class-name");
-    codegen.args(["ApiPlatform", "ApiGit", "ApiSsh"]);
+    codegen.args(["ApiError", "ApiPlatform", "ApiGit", "ApiSsh"]);
     codegen.arg("--c-output");
     codegen.arg(format!("{}/ios/Runner/bridge_generated.h", &pwd));
     codegen.arg("--skip-add-mod-to-lib");
