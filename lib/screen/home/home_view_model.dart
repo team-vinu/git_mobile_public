@@ -36,7 +36,7 @@ class HomeViewModel extends StateNotifier<AsyncValue<RepoState>> {
       state = AsyncValue.data(RepoState(initMsg: ""));
     } else {
       state =
-          AsyncValue.data(RepoState(initMsg: await api.gitInit(dir: getDir)));
+          AsyncValue.data(RepoState(initMsg: await git.gitInit(dir: getDir)));
     }
   }
 
@@ -50,7 +50,7 @@ class HomeViewModel extends StateNotifier<AsyncValue<RepoState>> {
           AsyncValue.data(RepoState(repoCloneMsg: "Failed to open directory."));
     } else {
       state = AsyncValue.data(
-          RepoState(repoCloneMsg: await api.gitOpen(dir: pickedDir)));
+          RepoState(repoCloneMsg: await git.gitOpen(dir: pickedDir)));
     }
   }
 
@@ -63,7 +63,7 @@ class HomeViewModel extends StateNotifier<AsyncValue<RepoState>> {
           AsyncValue.data(RepoState(repoOpenMsg: "Failed to open directory."));
     } else {
       state = AsyncValue.data(RepoState(
-          repoOpenMsg: await api.gitHttpsClone(
+          repoOpenMsg: await git.gitHttpsClone(
               dir: pickedDir, url: state.value!.cloneUrl)));
     }
   }
