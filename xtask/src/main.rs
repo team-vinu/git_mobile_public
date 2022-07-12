@@ -4,10 +4,11 @@ use std::process::Command;
 
 fn code_gen(pwd: &String, llvm: Option<&String>) {
     let mut codegen = Command::new("flutter_rust_bridge_codegen");
-    let rust_output_dir = format!("{}/rust/src/bridge_generated", &pwd);
+    let rust_output_dir = format!("{}/libgit2-bindings/src/bridge_generated", &pwd);
     let rust_outputs = [
         format!("{}/api.rs", &rust_output_dir),
-        format!("{}/json.rs", &rust_output_dir),
+        format!("{}/git.rs", &rust_output_dir),
+        format!("{}/ssh.rs", &rust_output_dir),
     ];
 
     if !Path::new(&rust_output_dir).exists() {
@@ -23,20 +24,22 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
 
     codegen.arg("--rust-input");
     codegen.args([
-        format!("{}/rust/src/api.rs", &pwd),
-        format!("{}/rust/src/json.rs", &pwd),
+        format!("{}/libgit2-bindings/src/api.rs", &pwd),
+        format!("{}/libgit2-bindings/src/git.rs", &pwd),
+        format!("{}/libgit2-bindings/src/ssh.rs", &pwd),
     ]);
     codegen.arg("--dart-output");
     codegen.args([
         format!("{}/lib/bridge_generated/api.dart", &pwd),
-        format!("{}/lib/bridge_generated/json.dart", &pwd),
+        format!("{}/lib/bridge_generated/git.dart", &pwd),
+        format!("{}/lib/bridge_generated/ssh.dart", &pwd),
     ]);
     codegen.arg("--rust-output");
     codegen.args(&rust_outputs);
     codegen.arg("--class-name");
-    codegen.args(["ApiPlatform", "ApiJson"]);
+    codegen.args(["ApiPlatform", "ApiGit", "ApigSsh"]);
     codegen.arg("--c-output");
-    codegen.args([format!("{}/macos/Runner/brdge_generated.h", &pwd)]);
+    codegen.arg(format!("{}/ios/Runner/bridge_generated.h", &pwd));
     codegen.arg("--skip-add-mod-to-lib");
 
     if llvm.is_some() {
@@ -50,6 +53,61 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
 }
 
 fn flutter_run(device: Option<&String>) {
+    #[allow(non_snake_case)]
+    let AARCH64_APPLE_IOS_SIM_OPENSSL_DIR = "$PWD/openssl/aarch64_ios";
+    #[allow(non_snake_case)]
+    let AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR = "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/include";
+    #[allow(non_snake_case)]
+    let AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR = "${AARCH64_APPLE_IOS_SIM_OPENSSL_DIR}/lib";
+    #[allow(non_snake_case)]
+    let X86_64_LINUX_ANDROID_OPENSSL_DIR = "$PWD/openssl/x86_64_android";
+    #[allow(non_snake_case)]
+    let X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR = "$X86_64_LINUX_ANDROID_OPENSSL_DIR/include";
+    #[allow(non_snake_case)]
+    let X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR = "$X86_64_LINUX_ANDROID_OPENSSL_DIR/lib";
+    #[allow(non_snake_case)]
+    let I686_LINUX_ANDROID_OPENSSL_DIR = "$PWD/openssl/i686-android";
+    #[allow(non_snake_case)]
+    let I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR = "$I686_LINUX_ANDROID_OPENSSL_DIR/include";
+    #[allow(non_snake_case)]
+    let I686_LINUX_ANDROID_OPENSSL_LIB_DIR = "$I686_LINUX_ANDROID_OPENSSL_DIR/lib";
+    env::set_var(
+        "AARCH64_APPLE_IOS_SIM_OPENSSL_DIR",
+        AARCH64_APPLE_IOS_SIM_OPENSSL_DIR,
+    );
+    env::set_var(
+        "AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR",
+        AARCH64_APPLE_IOS_SIM_OPENSSL_INCLUDE_DIR,
+    );
+    env::set_var(
+        "AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR",
+        AARCH64_APPLE_IOS_SIM_OPENSSL_LIB_DIR,
+    );
+    env::set_var(
+        "X86_64_LINUX_ANDROID_OPENSSL_DIR",
+        X86_64_LINUX_ANDROID_OPENSSL_DIR,
+    );
+    env::set_var(
+        "X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR",
+        X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR,
+    );
+    env::set_var(
+        "X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR",
+        X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR,
+    );
+    env::set_var(
+        "I686_LINUX_ANDROID_OPENSSL_DIR",
+        I686_LINUX_ANDROID_OPENSSL_DIR,
+    );
+    env::set_var(
+        "I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR",
+        I686_LINUX_ANDROID_OPENSSL_INCLUDE_DIR,
+    );
+    env::set_var(
+        "I686_LINUX_ANDROID_OPENSSL_LIB_DIR",
+        I686_LINUX_ANDROID_OPENSSL_LIB_DIR,
+    );
+
     let mut fvm = Command::new("fvm");
     let mut flutter = Command::new("flutter");
     let args = match device {
