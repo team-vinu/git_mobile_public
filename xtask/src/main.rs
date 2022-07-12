@@ -1,89 +1,88 @@
-use clap::{App, Arg};
 use std::env;
+use std::path::Path;
 use std::process::Command;
 
-fn cargo_ndk(target: &str, profile: &str, pwd: &str) {
-    let mut cargo = Command::new("cargo");
-    cargo
-        .arg("build")
-        .arg("--package=libgit2-bindings")
-        .arg(format!("--target={}", &target))
-        .arg(format!("--profile={}", &profile));
+fn code_gen(pwd: &String, llvm: Option<&String>) {
+    let mut codegen = Command::new("flutter_rust_bridge_codegen");
+    let rust_output_dir = format!("{}/rust/src/bridge_generated", &pwd);
+    let rust_outputs = [
+        format!("{}/api.rs", &rust_output_dir),
+        format!("{}/json.rs", &rust_output_dir),
+    ];
 
-    cargo
-        .spawn()
-        .expect("failed to spawn the command.")
-        .wait()
-        .unwrap();
+    if !Path::new(&rust_output_dir).exists() {
+        std::fs::create_dir_all(&rust_output_dir).unwrap();
+    }
 
-    let mut copy = Command::new("cp");
-    if profile == "dev" {
-        copy.arg(format!(
-            "{}/target/{}/{}/liblibgit2_bindings.a",
-            &pwd, &target, "debug"
-        ));
+    for output in &rust_outputs {
+        let file = Path::new(&output);
+        if !file.exists() {
+            std::fs::File::create(&file).unwrap();
+        }
+    }
+
+    codegen.arg("--rust-input");
+    codegen.args([
+        format!("{}/rust/src/api.rs", &pwd),
+        format!("{}/rust/src/json.rs", &pwd),
+    ]);
+    codegen.arg("--dart-output");
+    codegen.args([
+        format!("{}/lib/bridge_generated/api.dart", &pwd),
+        format!("{}/lib/bridge_generated/json.dart", &pwd),
+    ]);
+    codegen.arg("--rust-output");
+    codegen.args(&rust_outputs);
+    codegen.arg("--class-name");
+    codegen.args(["ApiPlatform", "ApiJson"]);
+    codegen.arg("--c-output");
+    codegen.args([format!("{}/macos/Runner/brdge_generated.h", &pwd)]);
+    codegen.arg("--skip-add-mod-to-lib");
+
+    if llvm.is_some() {
+        codegen.args(["--llvm-path", &llvm.unwrap()]);
     } else {
-        copy.arg(format!(
-            "{}/target/{}/{}/liblibgit2_bindings.a",
-            &pwd, &target, &profile
-        ));
+        #[cfg(target_os = "macos")]
+        codegen.args(["--llvm-path", "/opt/homebrew/opt/llvm"]);
     }
-    let android_ndk_dir = format!("{}/android/app/src/main/jniLibs", &pwd);
-    match target {
-        "i686-linux-android" => {
-            let arg = format!("{}/x86", &android_ndk_dir);
-            copy.arg(&arg);
-            copy.spawn().expect("failed to coppy.").wait().unwrap();
-            let mut ld = Command::new("i686-linux-android-ld");
-            ld.arg(format!("{}/liblibgit2_bindings.a", &arg))
-                .arg(format!("{}/liblibgit2_bindings.a", &arg))
+
+    codegen.spawn().expect("failed to gen").wait().unwrap();
+}
+
+fn flutter_run(device: Option<&String>) {
+    let mut fvm = Command::new("fvm");
+    let mut flutter = Command::new("flutter");
+    let args = match device {
+        Some(dev) => vec!["run".to_string(), "-d".to_string(), format!("{}", &dev)],
+        None => vec!["run".to_string()],
+    };
+    match fvm.arg("flutter").args(&args).spawn() {
+        Ok(mut f) => {
+            f.wait().unwrap();
+        }
+        Err(_) => {
+            flutter
+                .args(&args)
                 .spawn()
-                .expect("failed to link")
+                .expect("there are no fvm or flutter.")
                 .wait()
                 .unwrap();
         }
-        "x86_64-linux-android" => {
-            let arg = format!("{}/x86_64", &android_ndk_dir);
-            copy.arg(&arg);
-            copy.spawn().expect("failed to coppy.").wait().unwrap();
-            let mut ld = Command::new("x86_64-linux-android-ld");
-            ld.arg(format!("{}/liblibgit2_bindings.a", &arg))
-                .arg(format!("{}/liblibgit2_bindings.a", &arg))
-                .spawn()
-                .expect("failed to link")
-                .wait()
-                .unwrap();
-        }
-        &_ => (),
     }
-    // ld.arg("-lz -ldl -llog -lgcc -ldl -lc -lm")
 }
 
 fn main() {
     let pwd = env::var("PWD").unwrap();
 
-    let target: Arg = Arg::new("target")
-        .short('t')
-        .long("target")
-        .takes_value(true)
-        .required(true);
+    let args: Vec<String> = std::env::args().collect();
 
-    let profile: Arg = Arg::new("profile")
-        .short('p')
-        .long("profile")
-        .takes_value(true)
-        .required(true);
-
-    let app: App = App::new("Task Runner").arg(target).arg(profile);
-
-    match app.try_get_matches() {
-        Ok(m) => {
-            let target = m.value_of("target").unwrap();
-            let profile = m.value_of("profile").unwrap();
-            cargo_ndk(&target, &profile, &pwd);
+    match args.get(1).expect("not enough arguments").as_str() {
+        "gen" => {
+            code_gen(&pwd, args.get(2));
         }
-        Err(e) => {
-            println!("{}", e);
+        "flutter" => {
+            flutter_run(args.get(2));
         }
+        &_ => panic!("Unexpected arguments!"),
     }
 }
