@@ -10,7 +10,7 @@ pub enum RepoError {
 }
 
 pub enum RepoResult {
-    Ok,
+    Ok(String),
     Err(String),
 }
 

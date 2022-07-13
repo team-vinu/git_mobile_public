@@ -3,7 +3,7 @@ use std::path::Path;
 
 pub fn git_https_clone(dir: String, url: String) -> error::RepoResult {
     match git2::Repository::clone(&url, Path::new(&dir)) {
-        Ok(_) => error::RepoResult::Ok,
+        Ok(_) => error::RepoResult::Ok(format!("")),
         Err(err) => error::RepoResult::Err(format!("Failed to clone: {}", err)),
     }
 }
@@ -17,7 +17,7 @@ pub fn git_http_clone(dir: String, url: String) -> error::RepoResult {
     builder.fetch_options(fetch_opts);
 
     match builder.clone(&url, Path::new(&dir)) {
-        Ok(_) => error::RepoResult::Ok,
+        Ok(_) => error::RepoResult::Ok(format!("")),
         Err(err) => error::RepoResult::Err(format!("Failed to clone: {}", err)),
     }
 }
@@ -66,14 +66,14 @@ pub fn git_commit(dir: String, msg: String) -> String {
 
 pub fn git_init(dir: String) -> error::RepoResult {
     match git2::Repository::init(Path::new(&dir)) {
-        Ok(_) => error::RepoResult::Ok,
+        Ok(_) => error::RepoResult::Ok(format!("")),
         Err(err) => error::RepoResult::Err(format!("{:?}", err)),
     }
 }
 
 pub fn git_open(dir: String) -> error::RepoResult {
     match git2::Repository::open(Path::new(&dir)) {
-        Ok(_) => error::RepoResult::Ok,
+        Ok(_) => error::RepoResult::Ok(format!("")),
         Err(err) => error::RepoResult::Err(format!("{:?}", err)),
     }
 }
