@@ -13,11 +13,10 @@ jobs:
       - name: Auto Publish
         env:
           AUTO_PUSH_TOKEN: ${{secrets.AUTO_PUSH_TOKEN}}
+          GIT_SSH_COMMAD: ssh -i ~/id_ed25519.pem -o StrictHostKeyChecking=no -F /dev/null
         run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          echo ${AUTO_PUSH_TOKEN} > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          echo ${AUTO_PUSH_TOKEN} > ~/id_ed25519.pem
+          chmod 600 ~/id_ed25519.pem
           git remote add public git@github.com:team-vinu/git_mobile_public.git
           git fetch -a
           git config --global user.name "${GITHUB_ACTOR}"
