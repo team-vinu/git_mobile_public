@@ -22,7 +22,7 @@ class AppRouter extends _i2.RootStackRouter {
   final Map<String, _i2.PageFactory> pagesMap = {
     HomeRoute.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i1.HomePage());
+          routeData: routeData, child: const _i1.HomeScreen());
     }
   };
 
@@ -35,7 +35,7 @@ class AppRouter extends _i2.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.HomePage]
+/// [_i1.HomeScreen]
 class HomeRoute extends _i2.PageRouteInfo<void> {
   const HomeRoute() : super(HomeRoute.name, path: '/home');
 

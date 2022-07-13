@@ -3,11 +3,11 @@ import 'package:git_mobile/screen/routes/route_path.dart';
 import 'package:git_mobile/screen/home/home_screen.dart';
 
 @AdaptiveAutoRouter(
-  replaceInRouteName: 'Page,Route',
+  replaceInRouteName: 'Screen,Route',
   routes: [
     AutoRoute(
       path: RoutePath.appRouteHome,
-      page: HomePage,
+      page: HomeScreen,
       initial: true,
     ),
   ],

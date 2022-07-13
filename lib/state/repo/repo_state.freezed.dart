@@ -16,10 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RepoState {
-  String get initMsg => throw _privateConstructorUsedError;
-  String get repoOpenMsg => throw _privateConstructorUsedError;
-  String get repoCloneMsg => throw _privateConstructorUsedError;
-  String get cloneUrl => throw _privateConstructorUsedError;
+  Repo get entity => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RepoStateCopyWith<RepoState> get copyWith =>
@@ -30,11 +27,9 @@ mixin _$RepoState {
 abstract class $RepoStateCopyWith<$Res> {
   factory $RepoStateCopyWith(RepoState value, $Res Function(RepoState) then) =
       _$RepoStateCopyWithImpl<$Res>;
-  $Res call(
-      {String initMsg,
-      String repoOpenMsg,
-      String repoCloneMsg,
-      String cloneUrl});
+  $Res call({Repo entity});
+
+  $RepoCopyWith<$Res> get entity;
 }
 
 /// @nodoc
@@ -47,29 +42,21 @@ class _$RepoStateCopyWithImpl<$Res> implements $RepoStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? initMsg = freezed,
-    Object? repoOpenMsg = freezed,
-    Object? repoCloneMsg = freezed,
-    Object? cloneUrl = freezed,
+    Object? entity = freezed,
   }) {
     return _then(_value.copyWith(
-      initMsg: initMsg == freezed
-          ? _value.initMsg
-          : initMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-      repoOpenMsg: repoOpenMsg == freezed
-          ? _value.repoOpenMsg
-          : repoOpenMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-      repoCloneMsg: repoCloneMsg == freezed
-          ? _value.repoCloneMsg
-          : repoCloneMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-      cloneUrl: cloneUrl == freezed
-          ? _value.cloneUrl
-          : cloneUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+      entity: entity == freezed
+          ? _value.entity
+          : entity // ignore: cast_nullable_to_non_nullable
+              as Repo,
     ));
+  }
+
+  @override
+  $RepoCopyWith<$Res> get entity {
+    return $RepoCopyWith<$Res>(_value.entity, (value) {
+      return _then(_value.copyWith(entity: value));
+    });
   }
 }
 
@@ -79,11 +66,10 @@ abstract class _$$_RepoStateCopyWith<$Res> implements $RepoStateCopyWith<$Res> {
           _$_RepoState value, $Res Function(_$_RepoState) then) =
       __$$_RepoStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String initMsg,
-      String repoOpenMsg,
-      String repoCloneMsg,
-      String cloneUrl});
+  $Res call({Repo entity});
+
+  @override
+  $RepoCopyWith<$Res> get entity;
 }
 
 /// @nodoc
@@ -98,28 +84,13 @@ class __$$_RepoStateCopyWithImpl<$Res> extends _$RepoStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? initMsg = freezed,
-    Object? repoOpenMsg = freezed,
-    Object? repoCloneMsg = freezed,
-    Object? cloneUrl = freezed,
+    Object? entity = freezed,
   }) {
     return _then(_$_RepoState(
-      initMsg: initMsg == freezed
-          ? _value.initMsg
-          : initMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-      repoOpenMsg: repoOpenMsg == freezed
-          ? _value.repoOpenMsg
-          : repoOpenMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-      repoCloneMsg: repoCloneMsg == freezed
-          ? _value.repoCloneMsg
-          : repoCloneMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-      cloneUrl: cloneUrl == freezed
-          ? _value.cloneUrl
-          : cloneUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+      entity: entity == freezed
+          ? _value.entity
+          : entity // ignore: cast_nullable_to_non_nullable
+              as Repo,
     ));
   }
 }
@@ -127,28 +98,14 @@ class __$$_RepoStateCopyWithImpl<$Res> extends _$RepoStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RepoState implements _RepoState {
-  const _$_RepoState(
-      {this.initMsg = "",
-      this.repoOpenMsg = "",
-      this.repoCloneMsg = "",
-      this.cloneUrl = ""});
+  const _$_RepoState({required this.entity});
 
   @override
-  @JsonKey()
-  final String initMsg;
-  @override
-  @JsonKey()
-  final String repoOpenMsg;
-  @override
-  @JsonKey()
-  final String repoCloneMsg;
-  @override
-  @JsonKey()
-  final String cloneUrl;
+  final Repo entity;
 
   @override
   String toString() {
-    return 'RepoState(initMsg: $initMsg, repoOpenMsg: $repoOpenMsg, repoCloneMsg: $repoCloneMsg, cloneUrl: $cloneUrl)';
+    return 'RepoState(entity: $entity)';
   }
 
   @override
@@ -156,21 +113,12 @@ class _$_RepoState implements _RepoState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RepoState &&
-            const DeepCollectionEquality().equals(other.initMsg, initMsg) &&
-            const DeepCollectionEquality()
-                .equals(other.repoOpenMsg, repoOpenMsg) &&
-            const DeepCollectionEquality()
-                .equals(other.repoCloneMsg, repoCloneMsg) &&
-            const DeepCollectionEquality().equals(other.cloneUrl, cloneUrl));
+            const DeepCollectionEquality().equals(other.entity, entity));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(initMsg),
-      const DeepCollectionEquality().hash(repoOpenMsg),
-      const DeepCollectionEquality().hash(repoCloneMsg),
-      const DeepCollectionEquality().hash(cloneUrl));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(entity));
 
   @JsonKey(ignore: true)
   @override
@@ -179,20 +127,10 @@ class _$_RepoState implements _RepoState {
 }
 
 abstract class _RepoState implements RepoState {
-  const factory _RepoState(
-      {final String initMsg,
-      final String repoOpenMsg,
-      final String repoCloneMsg,
-      final String cloneUrl}) = _$_RepoState;
+  const factory _RepoState({required final Repo entity}) = _$_RepoState;
 
   @override
-  String get initMsg;
-  @override
-  String get repoOpenMsg;
-  @override
-  String get repoCloneMsg;
-  @override
-  String get cloneUrl;
+  Repo get entity;
   @override
   @JsonKey(ignore: true)
   _$$_RepoStateCopyWith<_$_RepoState> get copyWith =>
