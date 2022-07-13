@@ -26,5 +26,5 @@ jobs:
           git checkout public
           git config pull.rebase false
           git pull public public
-          git push -f origin public
-          git push -f public public
+          git push origin public
+          git push public public
