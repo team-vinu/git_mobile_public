@@ -13,7 +13,7 @@ jobs:
       - name: Auto Publish
         env:
           AUTO_PUSH_TOKEN: ${{secrets.AUTO_PUSH_TOKEN}}
-          GIT_SSH_COMMAD: ssh -i ~/id_ed25519.pem -o StrictHostKeyChecking=no -F /dev/null
+          GIT_SSH_COMMAND: ssh -i ~/id_ed25519.pem -o StrictHostKeyChecking=no -F /dev/null
         run: |
           echo ${AUTO_PUSH_TOKEN} > ~/id_ed25519.pem
           chmod 600 ~/id_ed25519.pem
