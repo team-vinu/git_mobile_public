@@ -9,7 +9,6 @@ jobs:
     name: publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Auto Publish
         env:
           AUTO_PUSH_TOKEN: ${{secrets.AUTO_PUSH_TOKEN}}
@@ -21,4 +20,5 @@ jobs:
           git fetch -a
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GIHUB_ACTOR}@users.noreply.github.com"
+          git pull origin public
           git push -f public public
