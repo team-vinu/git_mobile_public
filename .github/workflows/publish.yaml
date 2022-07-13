@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 1
       - name: Auto Publish
         run: |
-          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/team-vinu/git_mobile_public.git
+          git remote set-url origin https://anosatsuk124:${AUTO_PUSH_TOKEN}@github.com/team-vinu/git_mobile_public.git
           git fetch -a
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GIHUB_ACTOR}@users.noreply.github.com"
