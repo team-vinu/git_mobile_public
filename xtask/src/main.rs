@@ -55,7 +55,7 @@ fn code_gen(pwd: &String, llvm: Option<&String>) {
     codegen.spawn().expect("failed to gen").wait().unwrap();
 }
 
-fn flutter_run(device: Option<&String>, pwd: &String) {
+fn flutter_run(device: Option<&String>, pwd: &String, files: &mut Vec<String>) {
     #[allow(non_snake_case)]
     let AARCH64_APPLE_IOS_SIM_OPENSSL_DIR = format!("{pwd}/openssl/aarch64_ios");
     #[allow(non_snake_case)]
@@ -125,8 +125,16 @@ fn flutter_run(device: Option<&String>, pwd: &String) {
         Command::new("flutter")
     };
     let args = match device {
-        Some(dev) => vec!["run".to_string(), "-d".to_string(), format!("{}", &dev)],
-        None => vec!["run".to_string()],
+        Some(dev) => {
+            let mut arg = vec!["run".to_string(), "-d".to_string(), format!("{}", &dev)];
+            arg.append(files);
+            arg
+        }
+        None => {
+            let mut arg = vec!["run".to_string()];
+            arg.append(files);
+            arg
+        }
     };
     match fvm.arg("flutter").args(&args).spawn() {
         Ok(mut f) => {
@@ -153,7 +161,7 @@ fn main() {
             code_gen(&pwd, args.get(2));
         }
         "flutter" => {
-            flutter_run(args.get(2), &pwd);
+            flutter_run(args.get(2), &pwd, &mut args[3..].to_vec());
         }
         &_ => panic!("Unexpected arguments!"),
     }
