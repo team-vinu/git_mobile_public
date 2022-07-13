@@ -5,16 +5,17 @@ on:
 jobs:
   build:
     name: publish
-    env:
-      AUTO_PUSH_TOKEN: ${{secrets.AUTO_PUSH_TOKEN}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
       - name: Auto Publish
+        env:
+          AUTO_PUSH_TOKEN: ${{secrets.AUTO_PUSH_TOKEN}}
         run: |
-          git remote add public https://anosatsuk124:${AUTO_PUSH_TOKEN}@github.com/team-vinu/git_mobile_public.git
+          echo ${AUTO_PUSH_TOKEN} > ~/.ssh/id_ed25519
+          git remote add public git@github.com:team-vinu/git_mobile_public.git
           git fetch -a
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GIHUB_ACTOR}@users.noreply.github.com"
