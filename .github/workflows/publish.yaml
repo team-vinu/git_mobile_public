@@ -15,8 +15,9 @@ jobs:
           AUTO_PUSH_TOKEN: ${{secrets.AUTO_PUSH_TOKEN}}
         run: |
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           echo ${AUTO_PUSH_TOKEN} > ~/.ssh/id_ed25519
-          chown 600 ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           git remote add public git@github.com:team-vinu/git_mobile_public.git
           git fetch -a
           git config --global user.name "${GITHUB_ACTOR}"
