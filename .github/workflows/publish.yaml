@@ -21,4 +21,4 @@ jobs:
           git fetch -a
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GIHUB_ACTOR}@users.noreply.github.com"
-          git push public public
+          git push -f public public
