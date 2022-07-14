@@ -3,14 +3,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:git_mobile/gen/assets.gen.dart';
 import 'home_view_model.dart';
+import 'package:git_mobile/state/repo/repo_state_provider.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final state = ref.watch(repoControllerProvider);
     final viewModel = ref.watch(homeViewModelProvider);
+    final repoState = ref.watch(repoStateProvider);
 
     return viewModel.when(
       data: (data) {
