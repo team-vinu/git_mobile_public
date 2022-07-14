@@ -5,4 +5,4 @@ rustflags = ["--print=native-static-libs"]
 xtask = "run --package xtask --"
 gen = "run --package xtask -- gen"
 flutter = "run --package xtask -- flutter"
-publish = "run --package xtask -- publish"
+repopublish = "run --package xtask -- publish"
