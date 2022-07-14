@@ -151,6 +151,22 @@ fn flutter_run(device: Option<&String>, pwd: &String, files: &mut Vec<String>) {
     }
 }
 
+fn publish(branch: &String) {
+    let ignores = ["note/"];
+
+    let mut checkout = Command::new("git");
+    checkout.arg("checkout").arg("public");
+    let mut merge = Command::new("git");
+    merge
+        .args(["merge", "--no-commit", "-Xtheirs"])
+        .arg(&branch);
+    let mut reset = Command::new("git");
+    reset.args(["reset", "HEAD"]).args(&ignores);
+    checkout.spawn().unwrap().wait().unwrap();
+    merge.spawn().unwrap().wait().unwrap();
+    reset.spawn().unwrap().wait().unwrap();
+}
+
 fn main() {
     let pwd = env::var("PWD").unwrap();
 
@@ -161,7 +177,14 @@ fn main() {
             code_gen(&pwd, args.get(2));
         }
         "flutter" => {
-            flutter_run(args.get(2), &pwd, &mut args[3..].to_vec());
+            if &args.len() > &3 {
+                flutter_run(args.get(2), &pwd, &mut args[3..].to_vec());
+            } else {
+                flutter_run(args.get(2), &pwd, &mut vec![]);
+            }
+        }
+        "publish" => {
+            publish(args.get(2).unwrap());
         }
         &_ => panic!("Unexpected arguments!"),
     }
