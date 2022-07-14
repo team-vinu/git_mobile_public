@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:git_mobile/gen/assets.gen.dart';
-import 'package:git_mobile/state/repo/repo_controller.dart';
 import 'home_view_model.dart';
 
 class HomeScreen extends HookConsumerWidget {
