@@ -15,39 +15,11 @@ final repoControllerProvider =
 });
 
 class RepoController extends StateNotifier<AsyncValue<RepoState>> {
-  RepoController(this.repoRepository) : super(const AsyncValue.loading()) {
-    _fetch();
-  }
+  RepoController(this.repoRepository) : super(const AsyncValue.loading()) {}
 
   final RepoRepositoryImpl repoRepository;
 
   void setState(RepoState repoState) {
     state = AsyncValue.data(repoState);
   }
-
-  void _fetch() {
-    final repo = Repo(
-        path: fp.Option<String>.none(), cloneUrl: fp.Option<String>.none());
-    state = AsyncValue.data(RepoState(entity: repo));
-  }
-
-  String getRepoInitMsg() {
-    return "";
-  }
-
-  String getRepoOpenMsg() {
-    return "";
-  }
-
-  String getRepoCloneMsg() {
-    return "";
-  }
-
-  Future<void> gitInitDir() async {}
-
-  Future<void> gitOpenDir() async {}
-
-  Future<void> gitClone() async {}
-
-  Future<void> setCloneUrl(String url) async {}
 }
