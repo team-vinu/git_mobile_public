@@ -59,7 +59,7 @@ dev_dependencies:
     lints: ^2.0.0
     flutter_gen_runner: ^4.3.0
     auto_route_generator: ^4.2.0
-    freezed: ^2.0.4
+    freezed: ^2.0.5
 
 # The following section is specific to Flutter packages.
 flutter:
