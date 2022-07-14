@@ -3,10 +3,13 @@
 
 import 'dart:ffi';
 import 'package:fpdart/fpdart.dart' as fp;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:git_mobile/bridge_generated/api.dart' as api_gen;
 import 'package:git_mobile/bridge_generated/git.dart' as git_gen;
 import 'package:git_mobile/bridge_generated/ssh.dart' as ssh_gen;
+import 'dart:core' hide Error;
+import 'dart:core' as core;
 // Re-export the bridge so it is only necessary to import this file.
 export 'package:git_mobile/bridge_generated/git.dart' show RepoResult;
 import 'dart:io' as io;

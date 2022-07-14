@@ -12,7 +12,7 @@ Future<FpResult<String>> pickDir() async {
   // if (status.isGranted) {}
   if (ret == null) {
     return FpResult<String>.left(
-        Error.directorySelectionError("Aborted file selection.", fp.none()));
+        Error.directorySelectionError("Aborted file selection."));
   }
   return FpResult<String>.of(ret);
 }
