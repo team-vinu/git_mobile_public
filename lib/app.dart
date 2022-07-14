@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
-import 'package:git_mobile/screen/routes/app_route.gr.dart';
+import 'package:git_mobile/ui/screen/routes/app_route.gr.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

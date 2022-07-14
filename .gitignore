@@ -56,4 +56,7 @@ app.*.map.json
 /ios/Runner/bridge_generated.h
 /libgit2-bindings/src/bridge_generated/*
 !/libgit2-bindings/src/bridge_generated/mod.rs
-/note
+
+/note/.obsidian
+*.freezed.dart
+*.gr.dart

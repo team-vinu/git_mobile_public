@@ -1,13 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:git_mobile/model/repo/repo.dart';
+
 part 'repo_state.freezed.dart';
 
 @freezed
 class RepoState with _$RepoState {
   const factory RepoState({
-    @Default("") String initMsg,
-    @Default("") String repoOpenMsg,
-    @Default("") String repoCloneMsg,
-    @Default("") String cloneUrl,
+    required Repo entity,
   }) = _RepoState;
 }

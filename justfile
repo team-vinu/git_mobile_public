@@ -19,14 +19,6 @@ gen: _init
     # Uncomment this line to invoke build_runner as well
     fvm flutter pub run build_runner build --delete-conflicting-outputs
 
-_init:
-    #!/usr/bin/env bash
-    set -euxo pipefail
-    export GENERATED="$PWD/libgit2-bindings/src/bridge_generated"
-    if [ ! -e "$GENERATED/api.rs" -a ! -e "$GENERATED/git.rs" -a ! -e "$GENERATED/ssh.rs" ]; then
-        touch "$GENERATED/api.rs" "$GENERATED/git.rs" "$GENERATED/ssh.rs"
-    fi
-
 device := "hoge"
 
 _init:

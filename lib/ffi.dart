@@ -3,11 +3,15 @@
 
 import 'dart:ffi';
 import 'package:fpdart/fpdart.dart' as fp;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:git_mobile/bridge_generated/api.dart' as api_gen;
 import 'package:git_mobile/bridge_generated/git.dart' as git_gen;
 import 'package:git_mobile/bridge_generated/ssh.dart' as ssh_gen;
+import 'dart:core' hide Error;
+import 'dart:core' as core;
 // Re-export the bridge so it is only necessary to import this file.
+export 'package:git_mobile/bridge_generated/git.dart' show RepoResult;
 import 'dart:io' as io;
 
 const _base = 'libgit2_bindings';
@@ -28,13 +32,25 @@ late final ssh_gen.ApiSsh ssh = ssh_gen.ApiSshImpl(
     io.Platform.isIOS ? DynamicLibrary.process() : DynamicLibrary.open(_dylib));
 
 extension FpdartRepoResult<E> on git_gen.RepoResult {
-  C match<C>(C Function() onOk, C Function(String err) onError) {
+  C match<C>(
+    C Function(String err) onError,
+    C Function(String ok) onOk,
+  ) {
     final result = this;
 
-    return result.map(ok: (ok) {
-      return onOk();
-    }, err: (err) {
-      return onError(err.field0);
-    });
+    return result.map(
+      err: (err) {
+        return onError(err.field0);
+      },
+      ok: (ok) {
+        return onOk(ok.field0);
+      },
+    );
   }
+
+  C fold<C>(
+    C Function(String err) onError,
+    C Function(String ok) onOk,
+  ) =>
+      match(onError, onOk);
 }

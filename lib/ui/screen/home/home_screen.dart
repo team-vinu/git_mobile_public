@@ -3,16 +3,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:git_mobile/gen/assets.gen.dart';
 import 'home_view_model.dart';
+import 'package:git_mobile/state/repo/repo_state_provider.dart';
 
-class HomePage extends HookConsumerWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends HookConsumerWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeViewModelProvider);
-    final viewModel = ref.watch(homeViewModelProvider.notifier);
+    final viewModel = ref.watch(homeViewModelProvider);
+    final repoState = ref.watch(repoStateProvider);
 
-    return state.when(
+    return viewModel.when(
       data: (data) {
         return Scaffold(
           appBar: AppBar(
@@ -24,18 +25,18 @@ class HomePage extends HookConsumerWidget {
               children: <Widget>[
                 Assets.images.gitIcon.svg(width: 200),
                 ElevatedButton(
-                  onPressed: viewModel.gitInitDir,
+                  onPressed: data.gitInit,
                   child: const Text('init'),
                 ),
                 const Text(
                   'The repository init: ',
                 ),
                 Text(
-                  data.initMsg,
+                  data.repoInitMsg,
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 ElevatedButton(
-                  onPressed: viewModel.gitOpenDir,
+                  onPressed: data.gitOpen,
                   child: const Text('open'),
                 ),
                 const Text(
@@ -46,12 +47,12 @@ class HomePage extends HookConsumerWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 ElevatedButton(
-                  onPressed: viewModel.gitClone,
+                  onPressed: data.gitClone,
                   child: const Text('Clone'),
                 ),
                 TextField(
                   decoration: InputDecoration(hintText: "Clone URL"),
-                  onChanged: (url) => viewModel.setCloneUrl(url),
+                  onChanged: (url) => data.setCloneUrl(url),
                 ),
                 Text(
                   data.repoCloneMsg,
