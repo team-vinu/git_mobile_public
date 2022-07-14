@@ -157,9 +157,11 @@ fn publish(branch: &String) {
     let mut checkout = Command::new("git");
     checkout.arg("checkout").arg("public");
     let mut merge = Command::new("git");
-    merge.arg("merge --no-commit -Xtheirs").arg(&branch);
+    merge
+        .args(["merge", "--no-commit", "-Xtheirs"])
+        .arg(&branch);
     let mut reset = Command::new("git");
-    reset.arg("reset HEAD").args(&ignores);
+    reset.args(["reset", "HEAD"]).args(&ignores);
     checkout.spawn().unwrap().wait().unwrap();
     merge.spawn().unwrap().wait().unwrap();
     reset.spawn().unwrap().wait().unwrap();
