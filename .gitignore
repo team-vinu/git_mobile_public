@@ -57,6 +57,6 @@ app.*.map.json
 /libgit2-bindings/src/bridge_generated/*
 !/libgit2-bindings/src/bridge_generated/mod.rs
 
-/note/.obsidian
+/note
 *.freezed.dart
 *.gr.dart
