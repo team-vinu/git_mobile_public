@@ -327,10 +327,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "32a021c53dd74c40077d4862906d0e7c3e256913"
+      resolved-ref: f0331a8f2e8095615bd16c7e7c8eb5bf2581c973
       url: "https://github.com/anosatsuk124/fpdart.git"
     source: git
-    version: "0.1.1"
+    version: "0.2.0"
   freezed:
     dependency: "direct dev"
     description:
