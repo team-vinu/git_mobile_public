@@ -9,7 +9,7 @@ edition = "2021"
 crate-type = ["lib", "staticlib", "cdylib"]
 
 [dependencies]
-git2 = "0.14.4"
+git2 = "0.16.1"
 flutter_rust_bridge = "1"
 thiserror = "1.0"
 ssh-key = { version = "0.4.0", features = ["getrandom", "encryption", "ed25519", "std"] }
